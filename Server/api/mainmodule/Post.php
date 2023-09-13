@@ -26,19 +26,28 @@
         $action_taken = $_POST['action_taken'];
 
 
-        $sql = "INSERT INTO logs (item_no, fault_code, fault_desc, transfer_to_do_s_no, mel_no, 
-        cat, action_taken) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([$item_no, $fault_code, $fault_desc, $transfer_to_do_no, $mel_no, $cat, $action_taken]);
+        // if empty return error
+        if (empty($item_no) || empty($fault_code) || empty($fault_desc)  || empty($cat) || empty($action_taken)) {
+            $code = 401;
+            $remarks = "failed";
+            $message = "Please fill up all fields.";
+            $payload = null;
+        } else {
+            // insert data to database
+            $sql = "INSERT INTO logs (item_no, fault_code, fault_desc, transfer_to_do_s_no, mel_no, cat, action_taken) VALUES (?,?,?,?,?,?,?)";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$item_no, $fault_code, $fault_desc, $transfer_to_do_no, $mel_no, $cat, $action_taken]);
 
+            $code = 200;
+            $remarks = "success";
+            $message = "Log created successfully.";
+            $payload = null;
 
+        }
 
+        return $this->gm->returnPayload($payload, $remarks, $message, $code);
 
-
-        
-
-
-
+        header ("Location: http://localhost/logbook/frontend/index.php");
 
 
         }
@@ -46,6 +55,18 @@
         public function edit_logt($id)
         {
          
+        }
+
+        public function get_logs(){
+            $sql = "SELECT * FROM logs";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute();
+            $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $code = 200;
+            $remarks = "success";
+            $message = "Logs retrieved successfully.";
+            $payload = $logs;
+            return $this->gm->returnPayload($payload, $remarks, $message, $code);
         }
 
 

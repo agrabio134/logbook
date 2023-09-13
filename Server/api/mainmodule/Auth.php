@@ -59,7 +59,6 @@ class Auth
         // Check if username already exists
         $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM users WHERE username = ?");
         $stmt->execute([$username]);
-        // header("Location: http://localhost/gymbro/signup.php");
         if ($stmt->fetchColumn() > 0) {
             $code = 409; // Conflict status code
             $remarks = "failed";
@@ -67,58 +66,69 @@ class Auth
             $payload = null;
         } else {
 
-        //insert data to database
-        $sql = "INSERT INTO users (id, fname, lname, username, password, token)
+            //insert data to database
+            $sql = "INSERT INTO users (user_id, fname, lname, username, password, token)
          VALUES (?, ?, ?, ?, ?, ?)";
-        $stmt = $this->pdo->prepare($sql);
-        // header("Location: http://localhost/gymbro/login.php");
+            $stmt = $this->pdo->prepare($sql);
 
-        try {
-            $stmt->execute([null, $fname, $lname, $username, $password, $token]);
-            if ($stmt->rowCount() > 0) {
-                $code = 200;
-                $remarks = "success";
-                $message = "User created successfully.";
-                $payload = null;
-            } else {
+            try {
+                $stmt->execute([null, $fname, $lname, $username, $password, $token]);
+                if ($stmt->rowCount() > 0) {
+                    $code = 200;
+                    $remarks = "success";
+                    $message = "User created successfully.";
+                    $payload = null;
+                } else {
+                    $code = 500;
+                    $remarks = "failed";
+                    $message = "Failed to create user.";
+                    $payload = null;
+                }
+            } catch (\PDOException $e) {
                 $code = 500;
                 $remarks = "failed";
                 $message = "Failed to create user.";
                 $payload = null;
             }
-        } catch (\PDOException $e) {
+            return $this->gm->returnPayload($payload, $remarks, $message, $code);
+
+            // using the server redirect to the login page
+
+        }
+    }
+
+    // logout
+    public function logout()
+    {
+        session_start();
+   
+        session_destroy();
+
+        //check if session is destroyed
+        if (session_status() == PHP_SESSION_NONE) {
+            $code = 200;
+            $remarks = "success";
+            $message = "Logged out successfully.";
+            $payload = null;
+        } else {
             $code = 500;
             $remarks = "failed";
-            $message = "Failed to create user.";
+            $message = "Failed to logout.";
             $payload = null;
         }
+
         return $this->gm->returnPayload($payload, $remarks, $message, $code);
+        // Redirect to the login page
+        // header("Location: {$_SERVER['HTTP_REFERER']}/login.html");
+        header("Location: http://localhost/logbook/frontend/login.php");
 
-        // using the server redirect to the login page
-
+        exit;
     }
-}
-    
-    //logout
-    // public function logout()
-    // {
-    //     session_start();
-    //     // Unset all session variables
-    //     $_SESSION = array();
-    //     // Destroy the session
-    //     session_destroy();
-    //     // Redirect to the login page
-    //     header("Location: {$_SERVER['HTTP_REFERER']}/login.html");
-    //     exit;
-    // }
 
     // create user
     public function login($received_data)
     {
-        // session_start();
-
-
-
+        session_start();
         $username = $_POST['username'];
         $pword =  $_POST['password'];
 
@@ -130,15 +140,11 @@ class Auth
             if ($stmt->rowCount() > 0) {
                 $res = $stmt->fetch();
                 if ($this->check_password($pword, $res['password'])) {
-                    $id = $res['id'];
-                    $fname = $res['first_name'];
-                    $lname = $res['last_name'];
-                    $address = $res['address'];
-                    $email = $res['email'];
+                    $id = $res['user_id'];
+                    $fname = $res['fname'];
+                    $lname = $res['lname'];
 
-
-
-                    $token = $this->generate_token($res['first_name']);
+                    $token = $this->generate_token($res['fname']);
                     // $role = $res['role'];
 
                     $code = 200;
@@ -146,21 +152,19 @@ class Auth
                     $message = "Logged in successfully.";
                     $payload = array(
                         "id" => $id,
-                        "first_name" => $fname,
-                        "last_name" => $lname,
-                        "address" => $address,
-                        "email" => $email,
-
-
+                        "fname" => $fname,
+                        "lname" => $lname,
                         "token" => $token
                     );
 
                     session_start();
 
                     $_SESSION['users_id'] = $id;
+                    $_SESSION['fname'] = $fname;
+                    $_SESSION['lname'] = $lname;
 
-                    echo  $id;
-                    header("Location: http://localhost/gymbro/index.php");
+                    header("Location: http://localhost/logbook/frontend/index.php");
+                    exit;
                 } else {
                     $code = 401;
                     $remarks = "failed";
@@ -180,12 +184,10 @@ class Auth
             $payload = null;
         }
 
-        
+
 
 
 
         return $this->gm->returnPayload($payload, $remarks, $message, $code);
-
     }
-
 }

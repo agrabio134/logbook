@@ -24,18 +24,23 @@ switch ($_SERVER['REQUEST_METHOD']) {
     case 'POST':
         $data = json_decode(file_get_contents("php://input"));
         switch ($req[0]) {
+
+            case 'logout':
+                echo json_encode($auth->logout());
+                break;  
+                
             case 'login':
                 echo json_encode($auth->login($data));
                 break;
-            
+
             case 'register':
                 echo json_encode($auth->register($data));
                 break; 
                 
             case 'create_log':
                 echo json_encode($post->create_log($data));
-                break;    
-        
+                break;   
+                
         
             default:
                 echo json_encode(array('error' => 'request not found'));
@@ -44,18 +49,18 @@ switch ($_SERVER['REQUEST_METHOD']) {
         break;
 
     case 'GET':
-        $data = json_decode(file_get_contents("php://input"));
 
         switch ($req[0]) {
-            case 'login':
-                echo json_encode($auth->login($data));
+            case 'get_logs':
+                echo json_encode($post->get_logs());
+                break;
+            default:
+                echo json_encode(array('error' => 'request not found'));
                 break;
         }
+        break;
 
-
-
-
-
+ 
     default:
         echo json_encode(array('error' => 'failed request'));
         break;

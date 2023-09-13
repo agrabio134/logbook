@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
     <title>Document</title>
 </head>
 
@@ -35,18 +36,55 @@
 
     <!-- create form for log -->
     <form action="../server/api/create_log" method="post">
-        <input type="text" name="item_no" placeholder="item no">
-        <input type="text" name="fault_code" placeholder="fault code">
-        <input type="text" name="fault_desc" placeholder="fault desc">
-        <input type="text" name="transfer_to_do_s_no" placeholder="transfer to do no">
-        <input type="text" name="mel_no" placeholder="mel no">
-    <select name="cat" id="cat">
+        
+        <div>
+        <h>DEFECT</h>
+        <input type="text" name="item_no" placeholder="Item Number">
+        <input type="text" name="fault_code" placeholder="Fault Code">
+        <input type="text" name="fault_desc" placeholder="Fault Description">
+        </div>
+        <div>
+            <h>ACTION TAKEN</h>
+       
+        <input type="text" name="transfer_to_do_s_no" placeholder="Transfer to DO S/No">
+        <input type="text" name="mel_item_no" placeholder="MEL Item No.">
+        <input type="text" name="#" placeholder="Description">
+        <select name="cat" id="cat">
         <option value="A">A</option>
         <option value="B">B</option>
         <option value="C">C</option>
         <option value="C">D</option>
-    </select>
-        <input type="text" name="action_taken" placeholder="action taken">
+        </select>
+        </div>
+        <div>
+        <h>Arrival Fuel (LBS)</h>
+        <input type="text" name="#" placeholder="LH">
+        <input type="text" name="#" placeholder="Ctr">
+        <input type="text" name="#" placeholder="RH">
+        </div>
+        <div>
+        <h>TIRE PRESSURE (PSI)</h>
+        <input type="radio"  name="#" value="hot">
+        <label for="hot">Hot</label>
+        <input type="radio"  name="#" value="cold">
+        <label for="cold">Cold</label><br>
+        </div>
+        <div>
+        <h>NOSE</h>
+        <input type="text" name="#" placeholder="LH">
+        <input type="text" name="#" placeholder="RH">
+        </div>
+        <div>
+        <h>LH MAIN</h>
+        <input type="text" name="#" placeholder="INBD">
+        <input type="text" name="#" placeholder="OUTBD">
+        </div>
+        <div>
+        <h>RH MAIN</h>
+        <input type="text" name="#" placeholder="INBD">
+        <input type="text" name="#" placeholder="OUTBD">
+        </div>
+        <!-- <input type="text" name="action_taken" placeholder="action taken"> -->
         <button type="submit">Create log</button>
     </form>
 
@@ -79,7 +117,7 @@
             echo "<td>" . $log['fault_code'] . "</td>";
             echo "<td>" . $log['fault_desc'] . "</td>";
             echo "<td>" . $log['transfer_to_do_s_no'] . "</td>";
-            echo "<td>" . $log['mel_no'] . "</td>";
+            echo "<td>" . $log['mel_item_no'] . "</td>";
             echo "<td>" . $log['cat'] . "</td>";
             echo "<td>" . $log['action_taken'] . "</td>";
             // echo "<td>" . $log['created_at'] . "</td>";

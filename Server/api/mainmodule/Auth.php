@@ -117,10 +117,10 @@ class Auth
             $payload = null;
         }
 
-        return $this->gm->returnPayload($payload, $remarks, $message, $code);
         // Redirect to the login page
-        // header("Location: {$_SERVER['HTTP_REFERER']}/login.html");
-        header("Location: http://localhost/logbook/frontend/login.php");
+        header("Location: {$_SERVER['HTTP_REFERER']}/login.php");
+
+        // return $this->gm->returnPayload($payload, $remarks, $message, $code);
 
         exit;
     }

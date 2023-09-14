@@ -17,13 +17,15 @@
         // session_start();
         // $user_id = $_SESSION['id'];
 
+
+        $user_id = $_POST['user_id'];
         $item_no = $_POST['item_no'];
         $fault_code = $_POST['fault_code'];
         $fault_desc = $_POST['fault_desc'];
         $transfer_to_do_no = $_POST['transfer_to_do_s_no'];
-        $mel_item_no = $_POST['mel_item_no'];
+        $mel_item_no = $_POST['mel_no'];
         $cat = $_POST['cat'];
-        // $action_taken = $_POST['action_taken'];
+        $action_taken = $_POST['action_taken'];
 
 
         // if empty return error
@@ -34,9 +36,9 @@
             $payload = null;
         } else {
             // insert data to database
-            $sql = "INSERT INTO logs (item_no, fault_code, fault_desc, transfer_to_do_s_no, mel_item_no, cat, action_taken) VALUES (?,?,?,?,?,?,?)";
+            $sql = "INSERT INTO logs (user_id, item_no, fault_code, fault_desc, transfer_to_do_s_no, mel_no, cat, action_taken) VALUES (?, ?,?,?,?,?,?,?)";
             $stmt = $this->pdo->prepare($sql);
-            $stmt->execute([$item_no, $fault_code, $fault_desc, $transfer_to_do_no, $mel_item_no, $cat, $action_taken]);
+            $stmt->execute([$user_id, $item_no, $fault_code, $fault_desc, $transfer_to_do_no, $mel_item_no, $cat, $action_taken]);
 
             $code = 200;
             $remarks = "success";
@@ -45,7 +47,7 @@
 
         }
 
-        return $this->gm->returnPayload($payload, $remarks, $message, $code);
+        // return $this->gm->returnPayload($payload, $remarks, $message, $code);
 
         header ("Location: http://localhost/logbook/frontend/index.php");
 

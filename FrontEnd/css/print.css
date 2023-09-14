@@ -1,0 +1,28 @@
+/* Hide elements you don't want to print */
+.hidePrint {
+    display: none;
+}
+
+
+.hideOnScreen {
+    display: none;
+}
+/* Show only specific elements */
+h3, table {
+    display: block;
+}
+@media print {
+    /* Hide elements you don't want to print */
+    .hidePrint {
+        display: none;
+    }
+
+    /* Show only specific elements for printing */
+    .showPrint {
+        display: block !important;
+    }
+}
+
+
+
+

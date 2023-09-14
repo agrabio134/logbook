@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/print.css" media="print">
+
     <title>Document</title>
 </head>
 
@@ -27,80 +29,79 @@
     echo "<h3>Name: $fname </h3>";
     echo "<h3>Last Name: $lname </h3>";
     ?>
-    <!-- add logout method post-->
-    <form action="../server/api/logout" method="post">
-        <button type="submit">Logout</button>
-    </form>
+
+    <div class="hidePrint">
+        <!-- add logout method post-->
+        <form action="../server/api/logout" method="post">
+            <button type="submit">Logout</button>
+        </form>
 
 
 
-    <!-- create form for log -->
-    <form action="../server/api/create_log" method="post">
-        
-        <div>
-        <h>DEFECT</h>
-        <input type="text" name="item_no" placeholder="Item Number">
-        <input type="text" name="fault_code" placeholder="Fault Code">
-        <input type="text" name="fault_desc" placeholder="Fault Description">
-        </div>
-        <div>
-            <h>ACTION TAKEN</h>
-       
-        <input type="text" name="transfer_to_do_s_no" placeholder="Transfer to DO S/No">
-        <input type="text" name="mel_item_no" placeholder="MEL Item No.">
-        <input type="text" name="#" placeholder="Description">
-        <select name="cat" id="cat">
-        <option value="A">A</option>
-        <option value="B">B</option>
-        <option value="C">C</option>
-        <option value="C">D</option>
-        </select>
-        </div>
-        <div>
-        <h>Arrival Fuel (LBS)</h>
-        <input type="text" name="#" placeholder="LH">
-        <input type="text" name="#" placeholder="Ctr">
-        <input type="text" name="#" placeholder="RH">
-        </div>
-        <div>
-        <h>TIRE PRESSURE (PSI)</h>
-        <input type="radio"  name="#" value="hot">
-        <label for="hot">Hot</label>
-        <input type="radio"  name="#" value="cold">
-        <label for="cold">Cold</label><br>
-        </div>
-        <div>
-        <h>NOSE</h>
-        <input type="text" name="#" placeholder="LH">
-        <input type="text" name="#" placeholder="RH">
-        </div>
-        <div>
-        <h>LH MAIN</h>
-        <input type="text" name="#" placeholder="INBD">
-        <input type="text" name="#" placeholder="OUTBD">
-        </div>
-        <div>
-        <h>RH MAIN</h>
-        <input type="text" name="#" placeholder="INBD">
-        <input type="text" name="#" placeholder="OUTBD">
-        </div>
-        <!-- <input type="text" name="action_taken" placeholder="action taken"> -->
-        <button type="submit">Create log</button>
-    </form>
+        <!-- create form for log -->
+        <form action="../server/api/create_log" method="post">
 
+            <div>
+                <h3>DEFECT</h3>
+                <input type="text" name="user_id" value="<?php echo "$user_id"; ?>" hidden>
+                <label for="Item Number">Item Number:</label>
+                <input type="text" name="item_no" placeholder="Item number" required>
+                <label for="Fault Code">Fault Code:</label>
+                <input type="text" name="fault_code" placeholder="Fault Code">
+                <label for="Fault Description">Fault Description:</label>
+                <input type="text" name="fault_desc" placeholder="Fault Description">
+            </div>
+            <div>
+                <h3>ACTION TAKEN</h3>
+                <label for="Transfer to DO S/No">Transfer to DO S/No:</label>
+                <input type="text" name="transfer_to_do_s_no" placeholder="Transfer to DO S/No">
+                <label for="MEL Item No">MEL Item No:</label>
+                <input type="text" name="mel_no" placeholder="MEL Item No">
+                <label for="Action Description">Action Description:</label>
+                <input type="text" name="action_taken" placeholder="Description">
+                <label for="CAT">Category:</label>
+
+                <select name="cat" id="cat">
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="C">D</option>
+                </select>
+            </div>
+
+            <!-- <input type="text" name="action_taken" placeholder="action taken"> -->
+            <button type="submit">Create log</button>
+        </form>
+
+
+
+
+        <a href="print_summary.php" target="_blank">Print Preview Summary</a>
+    </div>
     <!-- create table for logs -->
     <table>
         <tr>
-            <th>Item No</th>
+            <th colspan="3">DEFECT</th>
+            <th colspan="7">ACTION TAKEN</th>
+
+        </tr>
+        <tr>
+            <th>Item No.</th>
             <th>Fault Code</th>
             <th>Fault Desc</th>
-            <th>Transfer to DO No</th>
-            <th>MEL No</th>
+            <!-- <th class="hidePrint">Created At</th> -->
+
+            <th>Item No.</th>
+            <th>Transfer to DO S/No.</th>
+            <th>MEL Item No.</th>
             <th>CAT</th>
-            <th>Action Taken</th>
-            <th>Created At</th>
-            <th>Actions</th>
+            <th>Action Description</th>
+            <th class="hidePrint">Created At</th>
+            <th class="hidePrint">Actions</th>
+
         </tr>
+
+
         <?php
         // get all logs
         $url = "http://localhost/logbook/server/api/get_logs";
@@ -116,19 +117,29 @@
             echo "<td>" . $log['item_no'] . "</td>";
             echo "<td>" . $log['fault_code'] . "</td>";
             echo "<td>" . $log['fault_desc'] . "</td>";
+            // echo "<td class='hidePrint'>" . $log['updated_at'] . "</td>";
+
+            echo "<td>" . $log['item_no'] . "</td>";
             echo "<td>" . $log['transfer_to_do_s_no'] . "</td>";
-            echo "<td>" . $log['mel_item_no'] . "</td>";
+            echo "<td>" . $log['mel_no'] . "</td>";
             echo "<td>" . $log['cat'] . "</td>";
             echo "<td>" . $log['action_taken'] . "</td>";
-            // echo "<td>" . $log['created_at'] . "</td>";
-            echo "<td>" . $log['updated_at'] . "</td>";
-            echo "<td><a href='edit.php?id=" . $log['log_id'] . "'>Edit</a> | <a href='print.php?id=" . $log['log_id'] . "'>Print</a></td>";
+            echo "<td class='hidePrint'>" . $log['updated_at'] . "</td>";
+            echo "<td class='hidePrint'><a href='edit.php?id=" . $log['log_id'] . "'>Edit</a> ";
             echo "</tr>";
         }
         ?>
 
+    </table>
 
 
 </body>
 
 </html>
+
+<!-- Add this JavaScript function to the HTML -->
+<script>
+    function printPage() {
+        window.print(); // Trigger the browser's print dialog
+    }
+</script>

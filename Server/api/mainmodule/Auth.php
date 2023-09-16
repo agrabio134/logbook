@@ -78,19 +78,31 @@ class Auth
                     $remarks = "success";
                     $message = "User created successfully.";
                     $payload = null;
+
+                    header("Location: http://localhost/logbook/frontend/index.php");
+
                 } else {
                     $code = 500;
                     $remarks = "failed";
                     $message = "Failed to create user.";
                     $payload = null;
+
+                    header("Location: http://localhost/logbook/frontend/index.php");
+
                 }
             } catch (\PDOException $e) {
                 $code = 500;
                 $remarks = "failed";
                 $message = "Failed to create user.";
                 $payload = null;
+
+                header("Location: http://localhost/logbook/frontend/index.php");
+
             }
             return $this->gm->returnPayload($payload, $remarks, $message, $code);
+
+            header("Location: http://localhost/logbook/frontend/index.php");
+
 
             // using the server redirect to the login page
 
@@ -127,6 +139,7 @@ class Auth
 
     // create user
     public function login($received_data)
+
     {
         session_start();
         $username = $_POST['username'];
@@ -134,6 +147,9 @@ class Auth
 
         $sql = "SELECT * FROM users WHERE username = ? ";
         $stmt = $this->pdo->prepare($sql);
+
+        header('Content-Type: text/html; charset=utf-8');
+
 
         try {
             $stmt->execute([$username]);
@@ -163,19 +179,32 @@ class Auth
                     $_SESSION['fname'] = $fname;
                     $_SESSION['lname'] = $lname;
 
-                    header("Location: http://localhost/logbook/frontend/index.php");
+
+                    echo "<script>alert('Logged in Successfully!'); window.location.href = 'http://localhost/logbook/frontend/index.php';</script>";
                     exit;
                 } else {
+
+                    echo "<script>alert('Invalid username or password'); window.location.href = 'http://localhost/logbook/frontend/login.php';</script>";
+
+
+
+
                     $code = 401;
                     $remarks = "failed";
-                    $message = "Invalid username or password.";
+                    $message = "Invalid username or password."; 
                     $payload = null;
+
+                    exit;
                 }
             } else {
                 $code = 401;
                 $remarks = "failed";
                 $message = "Invalid username or password.";
                 $payload = null;
+                echo "<script>alert('Invalid username or password'); window.location.href = 'http://localhost/logbook/frontend/login.php';</script>";
+
+
+
             }
         } catch (\PDOException $e) {
             $code = 500;

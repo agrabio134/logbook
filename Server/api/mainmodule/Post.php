@@ -54,13 +54,48 @@
 
         }
 
-        public function edit_logt($id)
-        {
-         
+        public function archive_log($logId) {
+            $sql = "UPDATE logs SET is_archived = 1 WHERE log_id = ?";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$logId]);
+        
+            $code = 200;
+            $remarks = "success";
+            $message = "Log Archived successfully.";
+            $payload = null;
+        
+            // You can also redirect to a specific page or return a response as needed.
+            // For example, to redirect to the same page where the logs are displayed:
+            header('Location: http://localhost/logbook/frontend/');
+            exit;
+        
+            // Or, you can return a response in JSON format:
+            // return $this->gm->returnPayload($payload, $remarks, $message, $code);
         }
+        
+        public function retrieve_log($logId) {
+            $sql = "UPDATE logs SET is_archived = 0 WHERE log_id = ?";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$logId]);
+        
+            $code = 200;
+            $remarks = "success";
+            $message = "Log Retrieved successfully.";
+            $payload = null;
+        
+            // You can also redirect to a specific page or return a response as needed.
+            // For example, to redirect to the same page where the logs are displayed:
+            header('Location: http://localhost/logbook/frontend/');
+            exit;
+        
+            // Or, you can return a response in JSON format:
+            // return $this->gm->returnPayload($payload, $remarks, $message, $code);
+        }
+        
+        
 
         public function get_logs(){
-            $sql = "SELECT * FROM logs";
+            $sql = "SELECT * FROM logs Where is_archived = 0";
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute();
             $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -70,6 +105,18 @@
             $payload = $logs;
             return $this->gm->returnPayload($payload, $remarks, $message, $code);
         }
+        public function get_archived_logs(){
+            $sql = "SELECT * FROM logs Where is_archived = 1";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute();
+            $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $code = 200;
+            $remarks = "success";
+            $message = "Logs retrieved successfully.";
+            $payload = $logs;
+            return $this->gm->returnPayload($payload, $remarks, $message, $code);
+        }
+
 
 
         public function delete_post($id)

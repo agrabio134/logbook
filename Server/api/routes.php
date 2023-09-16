@@ -54,9 +54,24 @@ switch ($_SERVER['REQUEST_METHOD']) {
             case 'get_logs':
                 echo json_encode($post->get_logs());
                 break;
+            case 'get_archived_logs':
+                echo json_encode($post->get_archived_logs());
+                break;
+
+            case 'archive':
+                $logId = $_GET['id'];
+                echo json_encode($post->archive_log($logId));
+                break;
+                
+            case 'retrieve':
+                $logId = $_GET['id'];
+                echo json_encode($post->retrieve_log($logId));
+                break;
+                
             default:
                 echo json_encode(array('error' => 'request not found'));
                 break;
+
         }
         break;
 

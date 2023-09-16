@@ -56,7 +56,7 @@
         </form>
         <!-- Content for the print preview summary -->
         <h1>Print Preview Summary</h1>
-        <button type="button" onclick="window.print()">Print</button>
+        <button class="printBtn" type="button" onclick="window.print()">Print</button>
     </div>
 
     <table>

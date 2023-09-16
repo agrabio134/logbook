@@ -26,40 +26,43 @@
     $user_id = $_SESSION['users_id'];
     $fname = $_SESSION['fname'];
     $lname = $_SESSION['lname'];
-    echo "<h3>Name: $fname </h3>";
-    echo "<h3>Last Name: $lname </h3>";
+    // echo "<h3>Admin: $fname $lname</h3>";
+  
     ?>
 
     <div class="hidePrint">
         <!-- add logout method post-->
-        <form action="../server/api/logout" method="post">
-            <button type="submit">Logout</button>
-        </form>
+    <form class="logoutBg"action="../server/api/logout" method="post">
+        <div class="button-container">
+        <!-- <span class="adminName"><?php echo "$fname $lname"; ?></span> -->
+          <button class="logoutBtn" type="submit">Logout, <?php echo "$fname $lname"; ?></button>
+        </div>
+    </form>
 
-
+      
 
         <!-- create form for log -->
         <form action="../server/api/create_log" method="post">
-
+        
             <div>
                 <h3>DEFECT</h3>
                 <input type="text" name="user_id" value="<?php echo "$user_id"; ?>" hidden>
-                <label for="Item Number">Item Number:</label>
+                <label for="Item Number">Item Number:&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp</label>
                 <input type="text" name="item_no" placeholder="Item number" required>
-                <label for="Fault Code">Fault Code:</label>
+                &nbsp &nbsp<label for="Fault Code">Fault Code:</label>
                 <input type="text" name="fault_code" placeholder="Fault Code">
-                <label for="Fault Description">Fault Description:</label>
+                &nbsp &nbsp <label for="Fault Description">Fault Description:</label>
                 <input type="text" name="fault_desc" placeholder="Fault Description">
             </div>
             <div>
                 <h3>ACTION TAKEN</h3>
                 <label for="Transfer to DO S/No">Transfer to DO S/No:</label>
                 <input type="text" name="transfer_to_do_s_no" placeholder="Transfer to DO S/No">
-                <label for="MEL Item No">MEL Item No:</label>
-                <input type="text" name="mel_no" placeholder="MEL Item No">
-                <label for="Action Description">Action Description:</label>
+                &nbsp &nbsp<label for="MEL Item No">MEL Item No:</label>
+                <input type="text" name="mel_item_no" placeholder="MEL Item No">
+                &nbsp &nbsp<label for="Action Description">Action Description:</label>
                 <input type="text" name="action_taken" placeholder="Description">
-                <label for="CAT">Category:</label>
+                &nbsp &nbsp <label for="CAT">Category:</label>
 
                 <select name="cat" id="cat">
                     <option value="A">A</option>
@@ -76,7 +79,7 @@
 
 
 
-        <a href="print_summary.php" target="_blank">Print Preview Summary</a>
+        <a class="printPrv" href="print_summary.php" target="_blank">Print Preview Summary</a>
     </div>
     <!-- create table for logs -->
     <table>
@@ -121,7 +124,7 @@
 
             echo "<td>" . $log['item_no'] . "</td>";
             echo "<td>" . $log['transfer_to_do_s_no'] . "</td>";
-            echo "<td>" . $log['mel_no'] . "</td>";
+            echo "<td>" . $log['mel_item_no'] . "</td>";
             echo "<td>" . $log['cat'] . "</td>";
             echo "<td>" . $log['action_taken'] . "</td>";
             echo "<td class='hidePrint'>" . $log['updated_at'] . "</td>";
@@ -132,7 +135,7 @@
 
     </table>
 
-
+        
 </body>
 
 </html>

@@ -24,6 +24,7 @@
                 <input type="text" name="#" placeholder="Ctr">
                 <input type="text" name="#" placeholder="RH">
             </div>
+            <br>
             <div>
                 <h3>TIRE PRESSURE (PSI)</h3>
                   <input type="radio" name="#" value="hot">
@@ -31,16 +32,19 @@
                   <input type="radio" name="#" value="cold">
                   <label for="cold">Cold</label><br>
             </div>
+            <br>
             <div>
-                <h>NOSE</h>
+                <h>NOSE &nbsp &nbsp</h>
                 <input type="text" name="#" placeholder="LH">
                 <input type="text" name="#" placeholder="RH">
             </div>
+            <br>
             <div>
                 <h>LH MAIN</h>
                 <input type="text" name="#" placeholder="INBD">
                 <input type="text" name="#" placeholder="OUTBD">
             </div>
+            <br>
             <div>
                 <h>RH MAIN</h>
                 <input type="text" name="#" placeholder="INBD">
@@ -98,7 +102,7 @@
 
             echo "<td>" . $log['item_no'] . "</td>";
             echo "<td>" . $log['transfer_to_do_s_no'] . "</td>";
-            echo "<td>" . $log['mel_no'] . "</td>";
+            echo "<td>" . $log['mel_item_no'] . "</td>";
             echo "<td>" . $log['cat'] . "</td>";
             echo "<td>" . $log['action_taken'] . "</td>";
             echo "<td class='hidePrint'>" . $log['updated_at'] . "</td>";

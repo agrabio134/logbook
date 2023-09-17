@@ -54,6 +54,8 @@ class Auth
         $lname = $_POST['lname'];
         $username = $_POST['username'];
         $password = $this->encrypt_password($_POST['password']);
+        $department = $_POST['department'];
+        $contact_no = $_POST['contact_no'];
         $token = $this->generate_token($fname);
 
         // Check if username already exists
@@ -67,12 +69,12 @@ class Auth
         } else {
 
             //insert data to database
-            $sql = "INSERT INTO users (user_id, fname, lname, username, password, token)
-         VALUES (?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO users (user_id, fname, lname, username, password, token,  department, contact_no)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $this->pdo->prepare($sql);
 
             try {
-                $stmt->execute([null, $fname, $lname, $username, $password, $token]);
+                $stmt->execute([null, $fname, $lname, $username, $password, $token, $department, $contact_no]);
                 if ($stmt->rowCount() > 0) {
                     $code = 200;
                     $remarks = "success";
@@ -161,7 +163,12 @@ class Auth
                     $lname = $res['lname'];
 
                     $token = $this->generate_token($res['fname']);
-                    // $role = $res['role'];
+                    $department = $res['department'];
+                    $contact_no = $res['contact_no'];
+
+
+                    // $sql = "SELECT * FROM users WHERE username = ?";
+                    // $stmt = $this->pdo->prepare($sql);
 
                     $code = 200;
                     $remarks = "success";
@@ -170,14 +177,24 @@ class Auth
                         "id" => $id,
                         "fname" => $fname,
                         "lname" => $lname,
+                        "username" => $username,
+                        "department" => $department,
+                        "contact_no" => $contact_no,
                         "token" => $token
                     );
 
-                    session_start();
+                    // session_start();
 
                     $_SESSION['users_id'] = $id;
                     $_SESSION['fname'] = $fname;
                     $_SESSION['lname'] = $lname;
+                    $_SESSION['username'] = $username;
+                    $_SESSION['department'] = $department;
+                    $_SESSION['contact_no'] = $contact_no;
+
+                    echo $department, $contact_no;
+
+
 
 
                     echo "<script>alert('Logged in Successfully!'); window.location.href = 'http://localhost/logbook/frontend/index.php';</script>";

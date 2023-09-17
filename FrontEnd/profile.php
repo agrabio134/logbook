@@ -51,9 +51,10 @@ $lname = $_SESSION['lname'];
     <hr class="horizontal light mt-0 mb-2">
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
-        <!-- Add profile -->
+
+             <!-- Add profile -->
         <li class="nav-item">
-          <a class="nav-link text-white" href="./profile.php">
+          <a class="nav-link text-white  active bg-gradient-primary" disable>
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">person</i>
             </div>
@@ -61,10 +62,8 @@ $lname = $_SESSION['lname'];
           </a>
         </li>
         <!-- end -->
-
-
         <li class="nav-item">
-          <a class="nav-link text-white active bg-gradient-primary" disable>
+          <a class="nav-link text-white" href="./index.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">dashboard</i>
             </div>
@@ -72,7 +71,7 @@ $lname = $_SESSION['lname'];
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="./tables.php">
+          <a class="nav-link text-white" href="./tables.php" >
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">table_view</i>
             </div>
@@ -108,9 +107,9 @@ $lname = $_SESSION['lname'];
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
-            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Create log</li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Profile</li>
           </ol>
-          <h6 class="font-weight-bolder mb-0">Create log</h6>
+          <h6 class="font-weight-bolder mb-0">Profile Info</h6>
         </nav>
         </div>
       </div>
@@ -124,55 +123,39 @@ $lname = $_SESSION['lname'];
 
 
 
-          <!-- FORM HERE  -->
-          <form action="../server/api/create_log" method="post">
-        
-        <div>
-            <h3>DEFECT</h3>
-            <input type="text" name="user_id" value="<?php echo "$user_id"; ?>" hidden>
-            <label for="Item Number">Item Number:&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp</label>
-            <input type="text" name="item_no" placeholder="Item number" required>
-            &nbsp &nbsp<label for="Fault Code">Fault Code:</label>
-            <input type="text" name="fault_code" placeholder="Fault Code">
-            &nbsp &nbsp <label for="Fault Description">Fault Description:</label>
-            <input type="text" name="fault_desc" placeholder="Fault Description">
-        </div>
-        <div>
-            <h3>ACTION TAKEN</h3>
-            <label for="Transfer to DO S/No">Transfer to DO S/No:</label>
-            <input type="text" name="transfer_to_do_s_no" placeholder="Transfer to DO S/No">
-            &nbsp &nbsp<label for="MEL Item No">MEL Item No:</label>
-            <input type="text" name="mel_item_no" placeholder="MEL Item No">
-            &nbsp &nbsp<label for="Action Description">Action Description:</label>
-            <input type="text" name="action_taken" placeholder="Description">
-            &nbsp &nbsp <label for="CAT">Category:</label>
+    
 
-            <select name="cat" id="cat">
-                <option value="A">A</option>
-                <option value="B">B</option>
-                <option value="C">C</option>
-                <option value="C">D</option>
-            </select>
-        </div>
+    <!--  profile for users -->
 
-        <!-- <input type="text" name="action_taken" placeholder="action taken"> -->
-        <button type="submit">Create log</button>
-    </form>
+    <?php 
+    $fname = $_SESSION['fname'];
+    $lname = $_SESSION['lname'];
+    $username = $_SESSION['username'];
+    $department = $_SESSION['department'];
+    $contact_no = $_SESSION['contact_no'];
 
+
+
+    echo "<h3>Name: $fname $lname</h3>";
+    echo "<h5>Email: $username</h5>";
+    echo "<h5>Department: $department</h5>";
+    echo "<h5>Contact number: $contact_no</h5>";
+
+    ?>
+
+    
+
+
+    
+
+    <!-- end -->
 
             
-          </div>
+            </div>
         </div>     
     </div>
   </main>
-  
-  <!--   Core JS Files   -->
-  <!-- <script src="assets/js/core/popper.min.js"></script>
-  <script src="assets/js/core/bootstrap.min.js"></script>
-  <script src="assets/js/plugins/perfect-scrollbar.min.js"></script>
-  <script src="assets/js/plugins/smooth-scrollbar.min.js"></script>
-  <script src="assets/js/plugins/chartjs.min.js"></script>
-  -->
+
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {

@@ -8,12 +8,12 @@
 <body>
     <!-- registerpage -->
     <form action="../server/api/register" method="post">
-        <input type="text" name="username" placeholder="username">
-        <input type="text" name="password" placeholder="password">
-        <input type="text" name="fname" placeholder="first name">
-        <input type="text" name="lname" placeholder="last name">
-        <!-- <input type="text" name="address" placeholder="address"> -->
-        <!-- <input type="text" name="email" placeholder="email"> -->
+        <input type="email" name="username" placeholder="Email">
+        <input type="text" name="password" placeholder="Password">
+        <input type="text" name="fname" placeholder="First name">
+        <input type="text" name="lname" placeholder="Last name">
+        <input type="text" name="department" placeholder="Department">
+        <input type="text" name="contact_no" placeholder="Contact number">
         <button type="submit">Register</button>
     </form>
 

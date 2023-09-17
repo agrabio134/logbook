@@ -51,7 +51,8 @@ $lname = $_SESSION['lname'];
     <hr class="horizontal light mt-0 mb-2">
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
-        <!-- Add profile -->
+
+             <!-- Add profile -->
         <li class="nav-item">
           <a class="nav-link text-white" href="./profile.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -61,10 +62,8 @@ $lname = $_SESSION['lname'];
           </a>
         </li>
         <!-- end -->
-
-
         <li class="nav-item">
-          <a class="nav-link text-white active bg-gradient-primary" disable>
+          <a class="nav-link text-white" href="./index.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">dashboard</i>
             </div>
@@ -80,7 +79,7 @@ $lname = $_SESSION['lname'];
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="./archived.php">
+          <a class="nav-link text-white active bg-gradient-primary" disable>
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">receipt_long</i>
             </div>
@@ -108,9 +107,9 @@ $lname = $_SESSION['lname'];
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
-            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Create log</li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Bin</li>
           </ol>
-          <h6 class="font-weight-bolder mb-0">Create log</h6>
+          <h6 class="font-weight-bolder mb-0">Recycle Bin</h6>
         </nav>
         </div>
       </div>
@@ -124,55 +123,70 @@ $lname = $_SESSION['lname'];
 
 
 
-          <!-- FORM HERE  -->
-          <form action="../server/api/create_log" method="post">
-        
-        <div>
-            <h3>DEFECT</h3>
-            <input type="text" name="user_id" value="<?php echo "$user_id"; ?>" hidden>
-            <label for="Item Number">Item Number:&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp</label>
-            <input type="text" name="item_no" placeholder="Item number" required>
-            &nbsp &nbsp<label for="Fault Code">Fault Code:</label>
-            <input type="text" name="fault_code" placeholder="Fault Code">
-            &nbsp &nbsp <label for="Fault Description">Fault Description:</label>
-            <input type="text" name="fault_desc" placeholder="Fault Description">
-        </div>
-        <div>
-            <h3>ACTION TAKEN</h3>
-            <label for="Transfer to DO S/No">Transfer to DO S/No:</label>
-            <input type="text" name="transfer_to_do_s_no" placeholder="Transfer to DO S/No">
-            &nbsp &nbsp<label for="MEL Item No">MEL Item No:</label>
-            <input type="text" name="mel_item_no" placeholder="MEL Item No">
-            &nbsp &nbsp<label for="Action Description">Action Description:</label>
-            <input type="text" name="action_taken" placeholder="Description">
-            &nbsp &nbsp <label for="CAT">Category:</label>
+          <!-- TABLE HERE  -->
+          <!-- Table for archived logs goes here -->
+        <table>
+        <tr>
+            <th colspan="3">DEFECT</th>
+            <th colspan="7">ACTION TAKEN</th>
 
-            <select name="cat" id="cat">
-                <option value="A">A</option>
-                <option value="B">B</option>
-                <option value="C">C</option>
-                <option value="C">D</option>
-            </select>
-        </div>
+        </tr>
+        <tr>
+            <th>Item No.</th>
+            <th>Fault Code</th>
+            <th>Fault Desc</th>
+            <!-- <th class="hidePrint">Created At</th> -->
 
-        <!-- <input type="text" name="action_taken" placeholder="action taken"> -->
-        <button type="submit">Create log</button>
-    </form>
+            <th>Item No.</th>
+            <th>Transfer to DO S/No.</th>
+            <th>MEL Item No.</th>
+            <th>CAT</th>
+            <th>Action Description</th>
+            <th class="hidePrint">Created At</th>
+            <th class="hidePrint">Actions</th>
+
+        </tr>
+
+
+        <?php
+        // get all logs
+        $url = "http://localhost/logbook/server/api/get_archived_logs";
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $result = curl_exec($ch);
+        $logs = json_decode($result, true);
+        curl_close($ch);
+
+        // loop through logs
+        foreach ($logs['payload'] as $log) {
+            echo "<tr>";
+            echo "<td>" . $log['item_no'] . "</td>";
+            echo "<td>" . $log['fault_code'] . "</td>";
+            echo "<td>" . $log['fault_desc'] . "</td>";
+            // echo "<td class='hidePrint'>" . $log['updated_at'] . "</td>";
+
+            echo "<td>" . $log['item_no'] . "</td>";
+            echo "<td>" . $log['transfer_to_do_s_no'] . "</td>";
+            echo "<td>" . $log['mel_item_no'] . "</td>";
+            echo "<td>" . $log['cat'] . "</td>";
+            echo "<td>" . $log['action_taken'] . "</td>";
+            echo "<td class='hidePrint'>" . $log['updated_at'] . "</td>";
+            echo "<td class='hidePrint'>";
+            echo "<a href='../server/api/retrieve?id=" . $log['log_id'] . "' class='retireve-button' data-log-id='" . $log['log_id'] . "'>Retrieve</a>";
+            echo "</td>";
+            echo "</tr>";
+        }
+        ?>
+
+    </table>
 
 
             
-          </div>
+            </div>
         </div>     
     </div>
   </main>
-  
-  <!--   Core JS Files   -->
-  <!-- <script src="assets/js/core/popper.min.js"></script>
-  <script src="assets/js/core/bootstrap.min.js"></script>
-  <script src="assets/js/plugins/perfect-scrollbar.min.js"></script>
-  <script src="assets/js/plugins/smooth-scrollbar.min.js"></script>
-  <script src="assets/js/plugins/chartjs.min.js"></script>
-  -->
+
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {

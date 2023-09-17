@@ -40,6 +40,10 @@ switch ($_SERVER['REQUEST_METHOD']) {
             case 'create_log':
                 echo json_encode($post->create_log($data));
                 break;   
+
+            case 'add_detail':
+                echo json_encode($post->add_detail($data));
+                break;    
                 
         
             default:
@@ -53,6 +57,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
         switch ($req[0]) {
             case 'get_logs':
                 echo json_encode($post->get_logs());
+                break;
+            case 'get_summary':
+                echo json_encode($post->get_summary());
                 break;
             case 'get_archived_logs':
                 echo json_encode($post->get_archived_logs());

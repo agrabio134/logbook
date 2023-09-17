@@ -14,8 +14,8 @@
         {
           //get the users id from the session
 
-        // session_start();
-        // $user_id = $_SESSION['id'];
+        session_start();
+        $user_id = $_SESSION['id'];
 
 
         $user_id = $_POST['user_id'];
@@ -53,6 +53,47 @@
 
 
         }
+
+        public function add_detail($received_data)
+        {
+            session_start();
+            $user_id = $_SESSION['id'];
+            $user_id = $_POST['user_id'];
+
+            $arr_fuel_lh = $_POST['arr_fuel_lh'];
+            $arr_fuel_ctr = $_POST['arr_fuel_ctr'];
+            $arr_fuel_rh = $_POST['arr_fuel_rh'];
+            $tire_pressure = $_POST['tire_pressure'];
+            $nose_lh = $_POST['nose_lh'];
+            $nose_rh = $_POST['nose_rh'];
+            $lh_main_inbd = $_POST['lh_main_inbd'];
+            $lh_main_outbd = $_POST['lh_main_outbd'];
+            $rh_main_inbd = $_POST['rh_main_inbd'];
+            $rh_main_outbd = $_POST['rh_main_outbd'];
+
+    // If any required field is empty, return an error
+            if (empty($arr_fuel_lh) || empty($arr_fuel_ctr) || empty($arr_fuel_rh) || empty($tire_pressure) || empty($nose_lh) || empty($nose_rh) || empty($lh_main_inbd) || empty($lh_main_outbd) || empty($rh_main_inbd) || empty($rh_main_outbd)) {
+             $code = 401;
+             $remarks = "failed";
+             $message = "Please fill up all fields.";
+             $payload = null;
+            } else {
+        // Insert data into the database
+
+             $sql = "INSERT INTO summary (arrival_fuel_lh, arrival_fuel_ctr, arrival_fuel_rh, tire_pressure, nose_lh, nose_rh, lh_main_inbd, lh_main_outbd, rh_main_inbd, rh_main_outbd, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+             $stmt = $this->pdo->prepare($sql);
+             $stmt->execute([$arr_fuel_lh, $arr_fuel_ctr, $arr_fuel_rh, $tire_pressure, $nose_lh, $nose_rh, $lh_main_inbd, $lh_main_outbd, $rh_main_inbd, $rh_main_outbd, $user_id]);
+
+             $code = 200;
+             $remarks = "success";
+             $message = "Data added successfully.";
+             $payload = null;
+            }
+
+    // Redirect to a different page after processing the data
+            header("Location: http://localhost/logbook/frontend/print_summary.php");
+        }
+
 
         public function archive_log($logId) {
             $sql = "UPDATE logs SET is_archived = 1 WHERE log_id = ?";
@@ -105,6 +146,21 @@
             $payload = $logs;
             return $this->gm->returnPayload($payload, $remarks, $message, $code);
         }
+
+        public function get_summary(){
+            $sql = "SELECT * FROM summary";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute();
+            $summ = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $code = 200;
+            $remarks = "success";
+            $message = "summary retrieved successfully.";
+            $payload = $summ;
+            return $this->gm->returnPayload($payload, $remarks, $message, $code);
+        }
+
+
+
         public function get_archived_logs(){
             $sql = "SELECT * FROM logs Where is_archived = 1";
             $stmt = $this->pdo->prepare($sql);

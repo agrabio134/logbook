@@ -113,7 +113,7 @@
     </div>
 
 <!-- Button to open the modal -->
-<button id="openModalBtn">Open Trash Bin</button>
+<button  id="openModalBtn">Open Trash Bin</button>
 
 <!-- The Modal -->
 <div id="trashBinModal" class="modal">

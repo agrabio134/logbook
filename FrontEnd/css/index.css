@@ -181,3 +181,13 @@ h1{
 }
 
 /* bin */
+.trashBn{
+    width: 10%;
+    padding: 10px;
+    background-color: grey;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    font-size: 18px;
+    cursor: pointer;
+}

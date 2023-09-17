@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+  
+  
   <title>
   Logbook
   </title>
@@ -20,6 +22,7 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <!-- CSS Files -->
   <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="../css/form.css">
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
@@ -91,39 +94,40 @@
 
 
           <!-- FORM HERE  -->
-          <form action="../../server/api/create_log" method="post">
-        
-        <div>
-            <h3>DEFECT</h3>
-            <input type="text" name="user_id" value="<?php echo "$user_id"; ?>" hidden>
-            <label for="Item Number">Item Number:&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp</label>
-            <input type="text" name="item_no" placeholder="Item number" required>
-            &nbsp &nbsp<label for="Fault Code">Fault Code:</label>
-            <input type="text" name="fault_code" placeholder="Fault Code">
-            &nbsp &nbsp <label for="Fault Description">Fault Description:</label>
-            <input type="text" name="fault_desc" placeholder="Fault Description">
-        </div>
-        <div>
-            <h3>ACTION TAKEN</h3>
-            <label for="Transfer to DO S/No">Transfer to DO S/No:</label>
-            <input type="text" name="transfer_to_do_s_no" placeholder="Transfer to DO S/No">
-            &nbsp &nbsp<label for="MEL Item No">MEL Item No:</label>
-            <input type="text" name="mel_item_no" placeholder="MEL Item No">
-            &nbsp &nbsp<label for="Action Description">Action Description:</label>
-            <input type="text" name="action_taken" placeholder="Description">
-            &nbsp &nbsp <label for="CAT">Category:</label>
+          <form class="form-container" action="../../server/api/create_log" method="post">
+    <div>
+        <h3>DEFECT</h3>
+        <input type="text" name="user_id" value="<?php echo "$user_id"; ?>" hidden>
+        <label for="Item Number" class="form-label">Item Number:</label>
+        <input type="text" name="item_no" placeholder="Item number" required class="form-input">
+        <label for="Fault Code" class="form-label">Fault Code:</label>
+        <input type="text" name="fault_code" placeholder="Fault Code" class="form-input">
+        <label for="Fault Description" class="form-label">Fault Description:</label>
+<textarea name="fault_desc" placeholder="Fault Description" class="form-input"></textarea>
 
-            <select name="cat" id="cat">
-                <option value="A">A</option>
-                <option value="B">B</option>
-                <option value="C">C</option>
-                <option value="C">D</option>
-            </select>
-        </div>
+    </div>
+    <div>
+        <h3>ACTION TAKEN</h3>
+        <label for="Transfer to DO S/No" class="form-label">Transfer to DO S/No:</label>
+        <input type="text" name="transfer_to_do_s_no" placeholder="Transfer to DO S/No" class="form-input">
+        <label for="MEL Item No" class="form-label">MEL Item No:</label>
+        <input type="text" name="mel_item_no" placeholder="MEL Item No" class="form-input">
+        <label for="Action Description" class="form-label">Action Description:</label>
+<textarea name="action_taken" placeholder="Description" class="form-input"></textarea>
 
-        <!-- <input type="text" name="action_taken" placeholder="action taken"> -->
-        <button type="submit">Create log</button>
-    </form>
+        <label for="CAT" class="form-label">Category:</label>
+        <select name="cat" id="cat" class="form-select">
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+        </select>
+    </div>
+    <div style="display: flex; justify-content: center;">
+    <button class="btn bg-gradient-primary" type="submit" style="color: #fff; padding: 10px; border: none; border-radius: 5px; cursor: pointer;">Create log</button>
+</div>
+</form>
+
 
 
             

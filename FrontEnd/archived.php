@@ -37,6 +37,7 @@ $lname = $_SESSION['lname'];
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <!-- CSS Files -->
   <link id="pagestyle" href="assets/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="css/tables.css">
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
@@ -125,10 +126,10 @@ $lname = $_SESSION['lname'];
 
           <!-- TABLE HERE  -->
           <!-- Table for archived logs goes here -->
-        <table>
+        <table class="styled-table">
         <tr>
-            <th colspan="3">DEFECT</th>
-            <th colspan="7">ACTION TAKEN</th>
+            <th colspan="3" class="centered-header with-line">DEFECT</th>
+            <th colspan="7" class="centered-header with-line">ACTION TAKEN</th>
 
         </tr>
         <tr>

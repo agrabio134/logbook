@@ -1,40 +1,70 @@
-
-.form-container {
-    background-color: #f5f5f5;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+/* Style for the form sections (DEFECT and ACTION TAKEN) */
+.form-section {
+    display: inline-block;
+    vertical-align: top;
+  
 }
 
+/* Clear the margin-right for the last form section */
+.form-section:last-child {
+    margin-right: 0;
+}
 
-.form-label {
+/* Style for form headings (DEFECT and ACTION TAKEN) */
+.form-section h3 {
+    background-color: #333;
+    color: #fff;
+    padding: 5px;
+    margin: 0;
+}
+
+/* Style for form rows */
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+/* Style for form fields */
+.form-field {
+    flex: 1;
+    margin: 5px;
+}
+
+/* Style for labels */
+.form-field label {
+    display: block;
     font-weight: bold;
 }
 
-
-.form-input {
+/* Style for input fields */
+.form-field input[type="text"] {
+    width: 100%;
     padding: 5px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 100%;
-    margin-bottom: 10px;
+    border-radius: 3px;
+    outline: none;
 }
 
-
-.form-button {
+/* Style for the submit button */
+button[type="submit"] {
+    background-color: #333;
     color: #fff;
-    padding: 10px;
+    padding: 10px 20px;
     border: none;
-    border-radius: 5px;
+    border-radius: 3px;
     cursor: pointer;
 }
 
-
-.form-select {
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 100%;
-    margin-bottom: 10px;
+button[type="submit"]:hover {
+    background-color: #555;
 }
-
+.break {
+    margin-top: 10px; /* Add spacing between "Category" and "Description" */
+    width: 100%; /* Make the break div occupy the full width */
+    height: 0; /* Set height to zero so it doesn't visually affect layout */
+    clear: both; /* Clear any floating elements above it */
+}
+.centered-heading{
+    text-align: center;
+}

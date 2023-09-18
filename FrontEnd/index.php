@@ -5,8 +5,8 @@ session_start();
 
 // if not logged in redirect to login page
 if (!isset($_SESSION['users_id'])) {
-    header("Location: http://localhost/logbook/frontend/login.php");
-    exit;
+  header("Location: http://localhost/logbook/frontend/login.php");
+  exit;
 }
 $user_id = $_SESSION['users_id'];
 $fname = $_SESSION['fname'];
@@ -24,10 +24,11 @@ $lname = $_SESSION['lname'];
   <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="assets/img/favicon.png">
   <title>
-  Logbook
+    Logbook
   </title>
   <!--     Fonts and icons     -->
-  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+  <link rel="stylesheet" type="text/css"
+    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
   <!-- Nucleo Icons -->
   <link href="assets/css/nucleo-icons.css" rel="stylesheet" />
   <link href="assets/css/nucleo-svg.css" rel="stylesheet" />
@@ -37,12 +38,16 @@ $lname = $_SESSION['lname'];
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <!-- CSS Files -->
   <link id="pagestyle" href="assets/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="css/form.css">
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
-  <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
+  <aside
+    class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark"
+    id="sidenav-main">
     <div class="sidenav-header">
-      <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+      <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
+        aria-hidden="true" id="iconSidenav"></i>
       <a class="navbar-brand m-0" href="#" target="_blank">
         <img src="assets/img/logo-ct.png" class="navbar-brand-img h-100" alt="main_logo">
         <span class="ms-1 font-weight-bold text-white">Logbook</span>
@@ -92,18 +97,19 @@ $lname = $_SESSION['lname'];
     <div class="sidenav-footer position-absolute w-100 bottom-0 ">
       <div class="mx-3">
 
-      <form class="logoutBg"action="../server/api/logout" method="post">
-        <div class="button-container">
-        <!-- <span class="adminName"><?php echo "$fname $lname"; ?></span> -->
-          <button class="btn bg-gradient-primary w-100" type="submit">Logout</button>
-        </div>
-    </form>
+        <form class="logoutBg" action="../server/api/logout" method="post">
+          <div class="button-container">
+            <!-- <span class="adminName"><?php echo "$fname $lname"; ?></span> -->
+            <button class="btn bg-gradient-primary w-100" type="submit">Logout</button>
+          </div>
+        </form>
       </div>
     </div>
   </aside>
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
     <!-- Navbar -->
-    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
+      data-scroll="true">
       <div class="container-fluid py-1 px-3">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
@@ -112,60 +118,85 @@ $lname = $_SESSION['lname'];
           </ol>
           <h6 class="font-weight-bolder mb-0">Create log</h6>
         </nav>
-        </div>
+      </div>
       </div>
     </nav>
     <!-- End Navbar -->
     <div class="container-fluid py-4">
       <div class="row">
-          <div class="card">
+        <div class="card">
 
+          <div class="form-container">
+            <form action="../server/api/create_log" method="post">
+              <div class="form-section">
+              <h3 class="centered-heading">DEFECT</h3>
+                <div class="form-row">
+                  <div class="form-field">
+                    <label for="item_no">Item Number:</label>
+                    <input type="text" name="item_no" placeholder="Item number" required>
+                  </div>
+                  <div class="form-field">
+                    <label for="fault_code">Fault Code:</label>
+                    <input type="text" name="fault_code" placeholder="Fault Code">
+                  </div>
+                </div>
+                <div class="break"></div>
+                <div class="form-row">
+                  <div class="form-field">
+                    <label for="fault_desc">Fault Description:</label>
+                    <textarea name="fault_desc" placeholder="Fault Description" cols="50"></textarea>
+                  </div>
 
-
-
-
-          <!-- FORM HERE  -->
-          <form action="../server/api/create_log" method="post">
-        
-        <div>
-            <h3>DEFECT</h3>
-            <input type="text" name="user_id" value="<?php echo "$user_id"; ?>" hidden>
-            <label for="Item Number">Item Number:&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp</label>
-            <input type="text" name="item_no" placeholder="Item number" required>
-            &nbsp &nbsp<label for="Fault Code">Fault Code:</label>
-            <input type="text" name="fault_code" placeholder="Fault Code">
-            &nbsp &nbsp <label for="Fault Description">Fault Description:</label>
-            <input type="text" name="fault_desc" placeholder="Fault Description">
-        </div>
-        <div>
-            <h3>ACTION TAKEN</h3>
-            <label for="Transfer to DO S/No">Transfer to DO S/No:</label>
-            <input type="text" name="transfer_to_do_s_no" placeholder="Transfer to DO S/No">
-            &nbsp &nbsp<label for="MEL Item No">MEL Item No:</label>
-            <input type="text" name="mel_item_no" placeholder="MEL Item No">
-            &nbsp &nbsp<label for="Action Description">Action Description:</label>
-            <input type="text" name="action_taken" placeholder="Description">
-            &nbsp &nbsp <label for="CAT">Category:</label>
-
-            <select name="cat" id="cat">
-                <option value="A">A</option>
-                <option value="B">B</option>
-                <option value="C">C</option>
-                <option value="C">D</option>
-            </select>
-        </div>
-
-        <!-- <input type="text" name="action_taken" placeholder="action taken"> -->
-        <button type="submit">Create log</button>
-    </form>
-
-
+                </div>
+              </div>
+              <div class="form-section">
+              <h3 class="centered-heading">ACTION TAKEN</h3>
+                <div class="form-row">
+                  <div class="form-field">
+                    <label for="#">Item Number:</label>
+                    <input type="text" name="#" placeholder="Item Number">
+                  </div>
+                  <div class="form-field">
+                    <label for="transfer_to_do_s_no">Transfer to DO S/No:</label>
+                    <input type="text" name="transfer_to_do_s_no" placeholder="Item">
+                  </div>
+                  <div class="form-field">
+                    <label for="mel_item_no">MEL Item No.:</label>
+                    <input type="text" name="mel_item_no" placeholder="Code">
+                  </div>
+                  <div class="form-field">
+                    <label for="cat">Category:</label>
+                    <select class="form-field" name="cat" id="cat">
+                      <option value="A">A</option>
+                      <option value="B">B</option>
+                      <option value="C">C</option>
+                      <option value="D">D</option>
+                    </select>
+                  </div>
+                  <br>
+                  <div class="break"></div>
+                  <div class="form-field">
+                    <label for="action_taken">Description::</label>
             
+                    <textarea name="action_taken" placeholder="Description" cols="50"></textarea>
+                  </div>
+                </div>
+              </div>
+              <button style=" background-color: #e91e63; " type="submit">Create log</button>
+            </form>
+
           </div>
-        </div>     
+
+
+
+
+
+
+        </div>
+      </div>
     </div>
   </main>
-  
+
   <!--   Core JS Files   -->
   <!-- <script src="assets/js/core/popper.min.js"></script>
   <script src="assets/js/core/bootstrap.min.js"></script>

@@ -14,7 +14,13 @@ $lname = $_SESSION['lname'];
 // echo "<h3>Admin: $fname $lname</h3>";
 
 ?>
-
+<?php
+$fname = $_SESSION['fname'];
+$lname = $_SESSION['lname'];
+$username = $_SESSION['username'];
+$department = $_SESSION['department'];
+$contact_no = $_SESSION['contact_no'];
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -37,6 +43,7 @@ $lname = $_SESSION['lname'];
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <!-- CSS Files -->
   <link id="pagestyle" href="assets/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="css/profile.css">
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
@@ -119,34 +126,30 @@ $lname = $_SESSION['lname'];
       <div class="row">
           <div class="card">
 
+          
+          <table class="user-info-table">
+        <tr>
+            <th colspan="2">User Information</th>
+        </tr>
+        <tr>
+            <td>Name:</td>
+            <td><?php echo "$fname $lname"; ?></td>
+        </tr>
+        <tr>
+            <td>Email:</td>
+            <td><?php echo $username; ?></td>
+        </tr>
+        <tr>
+            <td>Department:</td>
+            <td><?php echo $department; ?></td>
+        </tr>
+        <tr>
+            <td>Contact number:</td>
+            <td><?php echo $contact_no; ?></td>
+        </tr>
+    </table>
 
-
-
-
-    
-
-    <!--  profile for users -->
-
-    <?php 
-    $fname = $_SESSION['fname'];
-    $lname = $_SESSION['lname'];
-    $username = $_SESSION['username'];
-    $department = $_SESSION['department'];
-    $contact_no = $_SESSION['contact_no'];
-
-
-
-    echo "<h3>Name: $fname $lname</h3>";
-    echo "<h5>Email: $username</h5>";
-    echo "<h5>Department: $department</h5>";
-    echo "<h5>Contact number: $contact_no</h5>";
-
-    ?>
-
-    
-
-
-    
+  
 
     <!-- end -->
 

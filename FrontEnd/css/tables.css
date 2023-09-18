@@ -1,0 +1,50 @@
+/* Basic table styles */
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+    font-family: Arial, sans-serif;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 8px;
+    text-align: left;
+}
+
+/* Header row styles */
+.styled-table th {
+    background-color: #333;
+    color: #fff;
+}
+
+/* Alternate row background color for better readability */
+.styled-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Hide the "Actions" column for print */
+@media print {
+    .hidePrint {
+        display: none;
+    }
+}
+/* Centered header styles */
+.centered-header {
+    text-align: center !important;
+}
+
+/* Style for the "Print Preview Summary" link */
+.printPrv {
+   
+     margin: 10px;
+    text-decoration: none; /* Remove underline for the link */
+    background-color: #e91e63; /* Link background color */
+    color: #fff; /* Link text color */
+    padding: 10px 20px; /* Link padding */
+    border-radius: 5px;
+    float: left;
+}
+
+
+

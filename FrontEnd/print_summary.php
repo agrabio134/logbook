@@ -9,6 +9,19 @@
 
     <link rel="stylesheet" type="text/css" href="css/print.css" media="print">
 </head>
+<style>
+    td.editable {
+        cursor: pointer;
+    }
+
+    td.editable:hover {
+        background-color: lightgray;
+    }
+
+    /* .save-button {
+            display: none;
+        } */
+</style>
 
 <body>
 
@@ -17,7 +30,7 @@
 
     <div class="hidePrint">
 
-        <form action="../server/api/add_detail" method ="post">
+        <!-- <form action="../server/api/add_detail" method="post">
             <div>
                 <h3>Arrival Fuel (LBS)</h3>
                 <input type="text" name="arr_fuel_lh" placeholder="LH">
@@ -53,7 +66,7 @@
             <input type="submit" value="Submit">
 
 
-        </form>
+        </form> -->
         <!-- Content for the print preview summary -->
         <h1>Print Preview Summary</h1>
         <button class="printBtn" type="button" onclick="window.print()">Print</button>
@@ -117,66 +130,184 @@
 
     </table>
 
+
     <table>
-    <thead>
-        <tr>
+
+        <thead>
+            <div id="add_head"></div>
+            <!-- <tr>
             <th colspan="3">Arrival Fuel (LBS)</th>
-            <th >Tire Pressure (PSI)</th>
+            <th>Tire Pressure (PSI)</th>
             <th colspan="2">NOSE</th>
             <th colspan="2">LH MAIN</th>
-
             <th colspan="2">RH MAIN</th>
-        </tr>
-        <tr>
-            <th>LH</th>
-            <th>Ctr</th>
-            <th>RH</th>
-            <!-- <th>HOT</th>
-            <th>COLD</th> -->
-            <th>( Hot | Cold )</th>
-            <th>LH</th>
-            <th>RH</th>
-            <th>INBD</th>
-            <th>OUTBD</th>
-            <th>INBD</th>
-            <th>OUTBD</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php
-        // get all Sum
-        $url = "http://localhost/logbook/server/api/get_summary";
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $result = curl_exec($ch);
-        $summ = json_decode($result, true);
-        curl_close($ch);
+        </tr> -->
+            <tr>
+                <th id="arrival_fuel_lh">LH</th>
+                <th id="arrival_fuel_ctr">Ctr</th>
+                <th id="arrival_fuel_rh">RH</th>
+                <th id="tire_pressure">( Hot | Cold )</th>
+                <th id="nose_lh">LH</th>
+                <th id="nose_rh">RH</th>
+                <th id="lh_main_inbd">INBD</th>
+                <th id="lh_main_outbd">OUTBD</th>
+                <th id="rh_main_inbd">INBD</th>
+                <th id="rh_main_outbd">OUTBD</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            // get all Sum
+            $url = "http://localhost/logbook/server/api/get_summary";
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $result = curl_exec($ch);
+            $summ = json_decode($result, true);
+            curl_close($ch);
 
-        // loop through logs
-        foreach ($summ['payload'] as $sum) {
-            echo "<tr>";
-            echo "<td>" . $sum['arrival_fuel_lh'] . "</td>";
-            echo "<td>" . $sum['arrival_fuel_ctr'] . "</td>";
-            echo "<td>" . $sum['arrival_fuel_rh'] . "</td>";
-            // echo "<td class='hidePrint'>" . $log['updated_at'] . "</td>";
+            // loop through logs
+            foreach ($summ['payload'] as $sum) {
+                echo "<tr>";
+                echo "<td class='editable' contenteditable='true'>" . $sum['arrival_fuel_lh'] . "</td>";
+                echo "<td class='editable' contenteditable='true'>" . $sum['arrival_fuel_ctr'] . "</td>";
+                echo "<td class='editable' contenteditable='true'>" . $sum['arrival_fuel_rh'] . "</td>";
+                echo "<td class='editable' contenteditable='true'>" . $sum['tire_pressure'] . "</td>";
+                echo "<td class='editable' contenteditable='true'>" . $sum['nose_lh'] . "</td>";
+                echo "<td class='editable' contenteditable='true'>" . $sum['nose_rh'] . "</td>";
+                echo "<td class='editable' contenteditable='true'>" . $sum['lh_main_inbd'] . "</td>";
+                echo "<td class='editable' contenteditable='true'>" . $sum['lh_main_outbd'] . "</td>";
+                echo "<td class='editable' contenteditable='true'>" . $sum['rh_main_inbd'] . "</td>";
+                echo "<td class='editable' contenteditable='true'>" . $sum['rh_main_outbd'] . "</td>";
+                echo "</tr>";
+            }
+            ?>
+        </tbody>
 
-            echo "<td>" . $sum['tire_pressure'] . "</td>";
-            echo "<td>" . $sum['nose_lh'] . "</td>";
-            echo "<td>" . $sum['nose_rh'] . "</td>";
-            echo "<td>" . $sum['lh_main_inbd'] . "</td>";
-            echo "<td>" . $sum['lh_main_outbd'] . "</td>";
-            echo "<td>" . $sum['rh_main_inbd'] . "</td>";
-            echo "<td>" . $sum['rh_main_outbd'] . "</td>";
-   
-            echo "</tr>";
+    </table>
+    <button class="save-button" onclick="saveData()">Save Changes</button>
+
+
+
+    <script>
+        let editedCells = [];
+        const saveButton = document.querySelector('.save-button');
+
+        function toggleSaveButton() {
+            saveButton.style.display = editedCells.length > 0 ? 'block' : 'none';
         }
-        ?>
+        const saveData = () => {
+            const dynamicHeaderRow = document.getElementById("dynamicHeaderRow");
+            if (dynamicHeaderRow) {
+                dynamicHeaderRow.remove();
+            }
 
-</tbody>
-</table>
+            // if one cell is empty alert
+            // if (editedCells.length === 0) {
+            //     alert("Please fill up all fields.");
+            //     return;
+            // }
 
 
 
+            if (editedCells.length === 0) {
+                alert("Please fill up all fields.");
+                return;
+            }
+
+            const editedData = {};
+
+            editedCells.forEach(cell => {
+                const column = cell.cellIndex; // Get the column index
+                const row = cell.parentElement.rowIndex - 1; // Subtract 1 for the header row
+                const table = cell.closest('table');
+                // const columnName = table.rows[0].cells[column].textContent; // Get the column name from the header row
+                const columnId = table.rows[0].cells[column].id; // Get the "id" attribute of the column
+
+                if (!editedData[row]) {
+                    editedData[row] = {};
+                }
+
+                // editedData[row].columnName = columnName;
+                // editedData[row].columnId = columnId;
+                editedData[columnId] = cell.textContent; // Use "columnId" as the key in the edited data
+            });
+
+
+            const editedDataJson = JSON.stringify(editedData);
+            console.log(editedDataJson);
+            //make editedData an json
+            // console.log(editedData);
+
+
+
+
+
+            // Send the edited data to the server using a POST request
+            fetch('../server/api/update_detail', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(editedData),
+
+                })
+
+
+                // Handle the response
+
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Data saved successfully');
+                        editedCells = [];
+                        console.log(editedCells);
+
+
+
+                        toggleSaveButton();
+                        alert("Data saved successfully");
+                        window.location.reload();
+                    } else {
+                        console.error('Failed to save data');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        document.querySelectorAll('.editable').forEach(cell => {
+            cell.addEventListener('input', () => {
+                if (!editedCells.includes(cell)) {
+                    editedCells.push(cell);
+                }
+                toggleSaveButton();
+            });
+        });
+        // Create a new table row (<tr>) element
+        const newRow = document.createElement("tr");
+        newRow.id = "dynamicHeaderRow"; // Assign an ID to the row
+
+
+        // Add the desired table header cells (<th>) to the new row
+        newRow.innerHTML = `
+    <th colspan="3">Arrival Fuel (LBS)</th>
+    <th>Tire Pressure (PSI)</th>
+    <th colspan="2">NOSE</th>
+    <th colspan="2">LH MAIN</th>
+    <th colspan="2">RH MAIN</th>
+
+    </tr>
+`;
+
+        // Find the table's <thead> element and append the new row to it
+        const thead = document.querySelector("table thead");
+        thead.appendChild(newRow);
+
+        const currentRow = thead.querySelector("tr");
+
+        // Insert the new row before the current row
+        thead.insertBefore(newRow, currentRow);
+    </script>
 </body>
 
 </html>

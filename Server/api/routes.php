@@ -43,7 +43,10 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
             case 'add_detail':
                 echo json_encode($post->add_detail($data));
-                break;    
+                break;  
+            case 'update_detail':
+                echo json_encode($post->update_detail($data));
+                break;  
                 
         
             default:

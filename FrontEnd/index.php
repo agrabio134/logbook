@@ -152,10 +152,10 @@ $lname = $_SESSION['lname'];
               <div class="form-section">
               <h3 class="centered-heading">ACTION TAKEN</h3>
                 <div class="form-row">
-                  <div class="form-field">
+                  <!-- <div class="form-field">
                     <label for="#">Item Number:</label>
                     <input type="text" name="#" placeholder="Item Number">
-                  </div>
+                  </div> -->
                   <div class="form-field">
                     <label for="transfer_to_do_s_no">Transfer to DO S/No:</label>
                     <input type="text" name="transfer_to_do_s_no" placeholder="Item">

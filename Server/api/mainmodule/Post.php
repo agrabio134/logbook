@@ -102,10 +102,7 @@ class Post
                 $data['lh_main_outbd'] == "" ? $summ[0]['lh_main_outbd'] : $data['lh_main_outbd'],
                 $data['rh_main_inbd'] == "" ? $summ[0]['rh_main_inbd'] : $data['rh_main_inbd'], 
                 $data['rh_main_outbd'] == "" ? $summ[0]['rh_main_outbd'] : $data['rh_main_outbd'],
-                    
 
-
-                
                 $idToUpdate // Use the correct ID for updating
             ]);
 
@@ -243,7 +240,7 @@ class Post
 
         // You can also redirect to a specific page or return a response as needed.
         // For example, to redirect to the same page where the logs are displayed:
-        header('Location: http://localhost/logbook/frontend/');
+        header('Location: http://localhost/logbook/frontend/tables.php');
         exit;
 
         // Or, you can return a response in JSON format:
@@ -263,7 +260,7 @@ class Post
 
         // You can also redirect to a specific page or return a response as needed.
         // For example, to redirect to the same page where the logs are displayed:
-        header('Location: http://localhost/logbook/frontend/');
+        header('Location: http://localhost/logbook/frontend/archived.php');
         exit;
 
         // Or, you can return a response in JSON format:

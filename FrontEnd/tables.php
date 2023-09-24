@@ -26,9 +26,11 @@ $lname = $_SESSION['lname'];
   <title>
     Logbook
   </title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
   <!--     Fonts and icons     -->
-  <link rel="stylesheet" type="text/css"
-    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
   <!-- Nucleo Icons -->
   <link href="assets/css/nucleo-icons.css" rel="stylesheet" />
   <link href="assets/css/nucleo-svg.css" rel="stylesheet" />
@@ -41,13 +43,11 @@ $lname = $_SESSION['lname'];
   <link rel="stylesheet" type="text/css" href="css/tables.css">
 </head>
 
+
 <body class="g-sidenav-show  bg-gray-200">
-  <aside
-    class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark"
-    id="sidenav-main">
+  <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
     <div class="sidenav-header">
-      <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
-        aria-hidden="true" id="iconSidenav"></i>
+      <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
       <a class="navbar-brand m-0" href="#" target="_blank">
         <img src="assets/img/logo-ct.png" class="navbar-brand-img h-100" alt="main_logo">
         <span class="ms-1 font-weight-bold text-white">Logbook</span>
@@ -107,8 +107,7 @@ $lname = $_SESSION['lname'];
   </aside>
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
     <!-- Navbar -->
-    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
-      data-scroll="true">
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
       <div class="container-fluid py-1 px-3">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
@@ -130,14 +129,14 @@ $lname = $_SESSION['lname'];
 
 
           <!-- TABLE HERE  -->
-<a class="printPrv" href="print_summary.php" target="_blank">Print Preview Summary</a>
+          <a class="printPrv" href="print_summary.php" target="_blank">Print Preview Summary</a>
 
 
           <!-- create table for logs -->
           <table class="styled-table">
             <tr>
-            <th colspan="3" class="centered-header with-line">DEFECT</th>
-        <th colspan="7" class="centered-header with-line">ACTION TAKEN</th>
+              <th colspan="3" class="centered-header with-line">DEFECT</th>
+              <th colspan="7" class="centered-header with-line">ACTION TAKEN</th>
             </tr>
             <tr>
               <th>Item No.</th>
@@ -171,7 +170,7 @@ $lname = $_SESSION['lname'];
               echo "<td>" . $log['fault_code'] . "</td>";
               echo "<td>" . $log['fault_desc'] . "</td>";
               // echo "<td class='hidePrint'>" . $log['updated_at'] . "</td>";
-            
+
               echo "<td>" . $log['item_no'] . "</td>";
               echo "<td>" . $log['transfer_to_do_s_no'] . "</td>";
               echo "<td>" . $log['mel_item_no'] . "</td>";
@@ -179,9 +178,15 @@ $lname = $_SESSION['lname'];
               echo "<td>" . $log['action_taken'] . "</td>";
               echo "<td class='hidePrint'>" . $log['updated_at'] . "</td>";
               echo "<td class='hidePrint'>";
-              echo "<a href='../server/api/archive?id=" . $log['log_id'] . "' class='archive-button' data-log-id='" . $log['log_id'] . "'>Archive</a>";
-              echo " | ";
-              echo "<a href='../server/api/edit?id=" . $log['log_id'] . "' class='edit-button' data-log-id='" . $log['log_id'] . "'>Edit</a>";
+              echo "<button type='button' class='btn btn-danger' data-log-id='" . $log['log_id'] . "' onclick='if(confirm(`Are you sure you want to archive this log with ID " . $log['log_id'] . "?`)) window.location.href=`../server/api/archive?id=" . $log['log_id'] . "`;'>Archive</button>";
+              // echo " | ";
+
+              echo "<button type='button' class='btn btn-warning editButton' id='editButton'
+              data-log-id='" . $log['log_id'] . "'
+              data-toggle='modal' data-target='#editModal'
+              >Edit</button>";
+
+              // echo "<a href='../server/api/edit?id=" . $log['log_id'] . "' class='edit-button' data-log-id='" . $log['log_id'] . "'>Edit</a>";
 
               echo "</td>";
               echo "</tr>";
@@ -196,21 +201,116 @@ $lname = $_SESSION['lname'];
       </div>
     </div>
     </div>
-  </main>
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editModalLabel">Edit Data</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
 
-  <script>
-    var win = navigator.platform.indexOf('Win') > -1;
-    if (win && document.querySelector('#sidenav-scrollbar')) {
-      var options = {
-        damping: '0.5'
-      }
-      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
-    }
-  </script>
-  <!-- Github buttons -->
+
+            <!-- Form fields here -->
+            <div class="form-container">
+
+              <?php
+             
+              ?>
+              <form action="../server/api/update_sum" method="post">
+                <div class="form-section">
+                  <h3 class="centered-heading">DEFECT</h3>
+                  <div class="form-row">
+                    <div class="form-field">
+                      <label for="item_no">Item Number:</label>
+                      <input type="text" name="item_no" id="item_no" required>
+                    </div>
+                    <div class="form-field">
+                      <label for="fault_code">Fault Code:</label>
+                      <input type="text" name="fault_code" id="fault_code">
+                    </div>
+                  </div>
+                  <div class="break"></div>
+                  <div class="form-row">
+                    <div class="form-field">
+                      <label for="fault_desc">Fault Description:</label>
+                      <textarea name="fault_desc" placeholder="Fault Description" id="fault_desc" cols="50"></textarea>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="form-section">
+                  <h3 class="centered-heading">ACTION TAKEN</h3>
+                  <div class="form-row">
+                    <!-- <div class="form-field">
+                      <label for="#">Item Number:</label>
+                      <input type="text" name="#" placeholder="Item Number" >
+                    </div> -->
+                    <div class="form-field">
+                      <label for="transfer_to_do_s_no">Transfer to DO S/No:</label>
+                      <input type="text" name="transfer_to_do_s_no" id="edit_item_no_action" placeholder="Item">
+                    </div>
+                    <div class="form-field">
+                      <label for="mel_item_no">MEL Item No.:</label>
+                      <input type="text" name="mel_item_no" id="edit_mel_item_no" placeholder="Code">
+                    </div>
+                    <div class="form-field">
+                      <label for="cat">Category:</label>
+                      <select class="form-field" name="cat" id="edit_cat">
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                      </select>
+                    </div>
+                    <br>
+                    <div class="break"></div>
+                    <div class="form-field">
+                      <label for="action_taken">Description:</label>
+
+                      <textarea name="action_taken" placeholder="Description" id="edit_action_taken" cols="50"></textarea>
+                    </div>
+                  </div>
+                </div>
+                <!-- <button style=" background-color: #e91e63; " type="submit">Create log</button> -->
+              </form>
+
+            </div>
+            <!-- End form fields -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="saveChangesButton">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+<script>
+
+
+$('.editButton').click(function() {
+  let logIdToEdit = $(this).data('log-id');
+
+  $('#loginInput').val(logIdToEdit);
+  console.log("Log ID to edit: " + logIdToEdit);
+
+});
+
+
+</script>
+
+ 
   <script async defer src="https://buttons.github.io/buttons.js"></script>
-  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="assets/js/material-dashboard.min.js?v=3.1.0"></script>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
 </body>
 
 </html>

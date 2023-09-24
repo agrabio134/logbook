@@ -58,12 +58,19 @@ switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
 
         switch ($req[0]) {
+
             case 'get_logs':
                 echo json_encode($post->get_logs());
                 break;
             case 'get_summary':
                 echo json_encode($post->get_summary());
                 break;
+            // getting sum by id
+            case 'get_sum_by_id':
+                $logId = $_GET['id'];
+                echo json_encode($get->get_common("summary", $logId));
+                break;
+
             case 'get_archived_logs':
                 echo json_encode($post->get_archived_logs());
                 break;

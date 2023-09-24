@@ -173,7 +173,7 @@ $lname = $_SESSION['lname'];
             echo "<td>" . $log['action_taken'] . "</td>";
             echo "<td class='hidePrint'>" . $log['updated_at'] . "</td>";
             echo "<td class='hidePrint'>";
-            echo "<a href='../server/api/retrieve?id=" . $log['log_id'] . "' class='retireve-button' data-log-id='" . $log['log_id'] . "'>Retrieve</a>";
+            echo "<button type='button' class='btn btn-success' data-log-id='" . $log['log_id'] . "' onclick='if(confirm(`Are you sure you want to retrieve this log with ID " . $log['log_id'] . "?`)) window.location.href=`../server/api/retrieve?id=" . $log['log_id'] . "`;'>Retrieve</button>";
             echo "</td>";
             echo "</tr>";
         }

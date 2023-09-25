@@ -1,9 +1,10 @@
-/* Basic table styles */
+
 .styled-table {
     width: 100%;
     border-collapse: collapse;
     border: 1px solid #ddd;
     font-family: Arial, sans-serif;
+    margin: 10px;
 }
 
 .styled-table th,
@@ -46,5 +47,8 @@
     float: left;
 }
 
-
+.action-description-cell {
+    max-height: 100px; /* Adjust the maximum height as needed */
+    overflow-y: auto;
+}
 

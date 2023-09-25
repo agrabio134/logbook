@@ -23,6 +23,15 @@ h3, table {
     }
 }
 
-
+.printPrv {
+   
+    margin: 10px;
+   text-decoration: none;
+   background-color: #e91e63; 
+   color: #fff; 
+   padding: 10px 20px; 
+   border-radius: 5px;
+   float: left;
+}
 
 

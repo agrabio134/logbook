@@ -40,10 +40,10 @@
             <br>
             <div>
                 <h3>TIRE PRESSURE (PSI)</h3>
-                  <input type="radio" name="tire_pressure" value="hot">
+                <input type="radio" name="tire_pressure" value="hot">
                 <label for="hot">Hot</label>
-                  <input type="radio" name="tire_pressure" value="cold">
-                  <label for="cold">Cold</label><br>
+                <input type="radio" name="tire_pressure" value="cold">
+                <label for="cold">Cold</label><br>
             </div>
             <br>
             <div>
@@ -68,13 +68,22 @@
 
         </form> -->
         <!-- Content for the print preview summary -->
-        <h1>Print Preview Summary</h1>
-        <button class="printBtn" type="button" onclick="window.print()">Print</button>
+
+
     </div>
 
 
-    <h3><b>flyseair.com</b></h3>
-    <h3>TECHNICAL LOG</h3>
+    <div style="text-align: center;">
+        <h3 style="font-weight: bold; color: #007BFF; font-size: 24px; margin-bottom: 0;"><b>flyseair.com</b></h3>
+        <h3
+            style="font-size: 45px; margin-top: 5px; font-family: 'Roboto', sans-serif;  text-align: center; text-transform: uppercase;">
+            TECHNICAL LOG</h3>
+
+        <h1>Print Preview Summary</h1>
+    </div>
+    <button style="
+   background-color: #e91e63; 
+  " class="printPrv" type="button" onclick="window.print()">Print</button>
     <table>
         <tr>
             <th colspan="3">DEFECT</th>
@@ -113,14 +122,20 @@
             echo "<tr>";
             echo "<td>" . $log['item_no'] . "</td>";
             echo "<td>" . $log['fault_code'] . "</td>";
-            echo "<td>" . $log['fault_desc'] . "</td>";
+            echo "<td>";
+            echo "<div style='max-width: 150px; overflow-y: auto;'>" . $log['fault_desc'] . "</div>";
+            echo "</td>";
             // echo "<td class='hidePrint'>" . $log['updated_at'] . "</td>";
-
+        
             echo "<td>" . $log['item_no'] . "</td>";
             echo "<td>" . $log['transfer_to_do_s_no'] . "</td>";
             echo "<td>" . $log['mel_item_no'] . "</td>";
             echo "<td>" . $log['cat'] . "</td>";
-            echo "<td>" . $log['action_taken'] . "</td>";
+            echo "<td>";
+            echo "<div style='max-width: 150px;  overflow-y: auto;'>" . $log['action_taken'] . "</div>";
+            echo "</td>";
+
+
             echo "<td class='hidePrint'>" . $log['updated_at'] . "</td>";
             echo "<td class='showPrint' > </td>";
             // echo "<td class='hidePrint'><a href='edit.php?id=" . $log['log_id'] . "'>Edit</a> ";
@@ -184,7 +199,7 @@
         </tbody>
 
     </table>
-    <button class="save-button" onclick="saveData()">Save Changes</button>
+    <button style="background-color: #e91e63;" class="save-button printBtn" onclick="saveData()">Save Changes</button>
 
 
 
@@ -244,13 +259,13 @@
 
             // Send the edited data to the server using a POST request
             fetch('../server/api/update_detail', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(editedData),
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(editedData),
 
-                })
+            })
 
 
                 // Handle the response

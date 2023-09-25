@@ -134,66 +134,75 @@ $lname = $_SESSION['lname'];
 
           <!-- create table for logs -->
           <table class="styled-table">
-            <tr>
-              <th colspan="3" class="centered-header with-line">DEFECT</th>
-              <th colspan="7" class="centered-header with-line">ACTION TAKEN</th>
-            </tr>
-            <tr>
-              <th>Item No.</th>
-              <th>Fault Code</th>
-              <th class="with-line">Fault Desc</th>
-              <!-- <th class="hidePrint">Created At</th> -->
+  <tr>
+    <th colspan="3" class="centered-header with-line">DEFECT</th>
+    <th colspan="7" class="centered-header with-line">ACTION TAKEN</th>
+  </tr>
+  <tr>
+    <th>Item No.</th>
+    <th>Fault Code</th>
+    <th class="with-line">Fault Desc</th>
 
-              <th>Item No.</th>
-              <th>Transfer to DO S/No.</th>
-              <th>MEL Item No.</th>
-              <th>CAT</th>
-              <th>Action Description</th>
-              <th class="hidePrint">Created At</th>
-              <th class="hidePrint">Actions</th>
-            </tr>
+    <th>Item No.</th>
+    <th>Transfer to DO S/No.</th>
+    <th>MEL Item No.</th>
+    <th>CAT</th>
+    <th>Action Description</th>
+    <th class="hidePrint">Created At</th>
+    <th class="hidePrint">Actions</th>
+  </tr>
 
+  <?php
+  // get all logs
+  $url = "http://localhost/logbook/server/api/get_logs";
+  $ch = curl_init($url);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  $result = curl_exec($ch);
+  $logs = json_decode($result, true);
+  curl_close($ch);
 
-            <?php
-            // get all logs
-            $url = "http://localhost/logbook/server/api/get_logs";
-            $ch = curl_init($url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            $result = curl_exec($ch);
-            $logs = json_decode($result, true);
-            curl_close($ch);
+  // loop through logs
+  foreach ($logs['payload'] as $log) {
+    echo "<tr>";
+    echo "<td>" . $log['item_no'] . "</td>";
+    echo "<td>" . $log['fault_code'] . "</td>";
 
-            // loop through logs
-            foreach ($logs['payload'] as $log) {
-              echo "<tr>";
-              echo "<td>" . $log['item_no'] . "</td>";
-              echo "<td>" . $log['fault_code'] . "</td>";
-              echo "<td>" . $log['fault_desc'] . "</td>";
-              // echo "<td class='hidePrint'>" . $log['updated_at'] . "</td>";
+    // Make "Fault Desc" cell fixed with a height of 100px and vertical scrolling
+    echo "<td>";
+    echo "<div style='max-width: 150px; height: 70px; overflow-y: auto;'>" . $log['fault_desc'] . "</div>";
+    echo "</td>";
+    
 
-              echo "<td>" . $log['item_no'] . "</td>";
-              echo "<td>" . $log['transfer_to_do_s_no'] . "</td>";
-              echo "<td>" . $log['mel_item_no'] . "</td>";
-              echo "<td>" . $log['cat'] . "</td>";
-              echo "<td>" . $log['action_taken'] . "</td>";
-              echo "<td class='hidePrint'>" . $log['updated_at'] . "</td>";
-              echo "<td class='hidePrint'>";
-              echo "<button type='button' class='btn btn-danger' data-log-id='" . $log['log_id'] . "' onclick='if(confirm(`Are you sure you want to archive this log with ID " . $log['log_id'] . "?`)) window.location.href=`../server/api/archive?id=" . $log['log_id'] . "`;'>Archive</button>";
-              // echo " | ";
+    echo "<td>" . $log['item_no'] . "</td>";
+    echo "<td>" . $log['transfer_to_do_s_no'] . "</td>";
+    echo "<td>" . $log['mel_item_no'] . "</td>";
+    echo "<td class='cat-cell'>" . $log['cat'] . "</td>";
 
-              echo "<button type='button' class='btn btn-warning editButton' id='editButton'
-              data-log-id='" . $log['log_id'] . "'
-              data-toggle='modal' data-target='#editModal'
-              >Edit</button>";
+    // Make "Action Description" cell fixed with a height of 100px and vertical scrolling
+    echo "<td>";
+    echo "<div style='max-width: 150px; height: 70px; overflow-y: auto;'>" . $log['action_taken'] . "</div>";
+    echo "</td>";
 
-              // echo "<a href='../server/api/edit?id=" . $log['log_id'] . "' class='edit-button' data-log-id='" . $log['log_id'] . "'>Edit</a>";
+    echo "<td class='hidePrint'>" . $log['updated_at'] . "</td>";
+    echo "<td class='hidePrint'>";
+    echo "<button type='button' class='btn btn-danger' data-log-id='" . $log['log_id'] . "' onclick='if(confirm(`Are you sure you want to archive this log with ID " . $log['log_id'] . "?`)) window.location.href=`../server/api/archive?id=" . $log['log_id'] . "`;'>Archive</button>";
 
-              echo "</td>";
-              echo "</tr>";
-            }
-            ?>
+    // Add a space between buttons
+    echo "&nbsp; &nbsp;";
+    
+    echo "<button type='button' class='btn btn-warning editButton' id='editButton'
+          data-log-id='" . $log['log_id'] . "'
+          data-toggle='modal' data-target='#editModal'
+          >Edit</button>";
+    
 
-          </table>
+    echo "</td>";
+    echo "</tr>";
+  }
+  ?>
+
+</table>
+
 
         </div>
 
@@ -206,7 +215,7 @@ $lname = $_SESSION['lname'];
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="editModalLabel">Edit Data</h5>
+            <h5 class="modal-title centered-header" id="editModalLabel">EDIT DATA</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -222,14 +231,14 @@ $lname = $_SESSION['lname'];
               ?>
               <form action="../server/api/update_sum" method="post">
                 <div class="form-section">
-                  <h3 class="centered-heading">DEFECT</h3>
+                  <h3>DEFECT</h3>
                   <div class="form-row">
                     <div class="form-field">
                       <label for="item_no">Item Number:</label>
                       <input type="text" name="item_no" id="item_no" required>
                     </div>
                     <div class="form-field">
-                      <label for="fault_code">Fault Code:</label>
+                      <label for="fault_code">Fault Code:&nbsp&nbsp&nbsp&nbsp</label>
                       <input type="text" name="fault_code" id="fault_code">
                     </div>
                   </div>
@@ -243,7 +252,7 @@ $lname = $_SESSION['lname'];
                   </div>
                 </div>
                 <div class="form-section">
-                  <h3 class="centered-heading">ACTION TAKEN</h3>
+                  <h3>ACTION TAKEN</h3>
                   <div class="form-row">
                     <!-- <div class="form-field">
                       <label for="#">Item Number:</label>
@@ -254,7 +263,7 @@ $lname = $_SESSION['lname'];
                       <input type="text" name="transfer_to_do_s_no" id="edit_item_no_action" placeholder="Item">
                     </div>
                     <div class="form-field">
-                      <label for="mel_item_no">MEL Item No.:</label>
+                      <label for="mel_item_no">MEL Item No.:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
                       <input type="text" name="mel_item_no" id="edit_mel_item_no" placeholder="Code">
                     </div>
                     <div class="form-field">

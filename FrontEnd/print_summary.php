@@ -21,6 +21,99 @@
     /* .save-button {
             display: none;
         } */
+
+    @media print {
+        body {
+            overflow: hidden;
+            /* Hide scrollbars in the printed output */
+        }
+
+        .printPrv {
+            display: none;
+            /* Hide the print button on the printed page */
+        }
+
+        /* Configure landscape printing */
+        @page {
+            size: landscape;
+            margin: 1cm;
+            /* Adjust margins as needed */
+        }
+.brand{
+    display: block;
+}
+        /* Add your custom styles for the printed page here */
+        /* For example, you can set different font sizes, margins, etc. */
+        table {
+            font-size: 12px;
+            /* Adjust font size for tables in the printed page */
+            /* Add other styles as needed */
+        }
+
+        /* Expand cell heights and widths to fit content when printing */
+        td,
+        th {
+            white-space: normal !important;
+            width: auto !important;
+            max-height: none !important;
+        }
+
+    }
+
+    .form-row {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+    }
+
+    /* Style for form fields */
+    .form-field {
+        flex: 1;
+        margin-right: 10px;
+    }
+
+    /* Add a break after every second form field */
+    .form-field:nth-child(2n) {
+        margin-right: 0;
+    }
+
+    /* Style for labels */
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    /* Style for input fields */
+    input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    /* Optional: Style for the form-section */
+    .form-section {
+        background-color: #f5f5f5;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+    }
+
+    /* Optional: Add some spacing after the form */
+    form {
+        margin-bottom: 20px;
+    }
+
+    .break {
+        margin-top: 10px;
+        /* Add spacing between "Category" and "Description" */
+        width: 100%;
+        /* Make the break div occupy the full width */
+        height: 0;
+        /* Set height to zero so it doesn't visually affect layout */
+        clear: both;
+        /* Clear any floating elements above it */
+    }
 </style>
 
 <body>
@@ -73,17 +166,76 @@
     </div>
 
 
-    <div style="text-align: center;">
-        <h3 style="font-weight: bold; color: #007BFF; font-size: 24px; margin-bottom: 0;"><b>flyseair.com</b></h3>
+    <div class="brand" style="text-align: center;">
+        <h3 style="font-weight: bold; font-size: 40px; color: gray; margin-bottom: 0;">
+            <img src="css/cropped-flyseair-free.png" alt="Company Logo" style="height: 40px; margin-right: 5px;">
+            <b>fly<span style="color: black;">seair</span>.com</b>
+        </h3>
+
         <h3
             style="font-size: 45px; margin-top: 5px; font-family: 'Roboto', sans-serif;  text-align: center; text-transform: uppercase;">
             TECHNICAL LOG</h3>
 
-        <h1>Print Preview Summary</h1>
+      
     </div>
-    <button style="
-   background-color: #e91e63; 
-  " class="printPrv" type="button" onclick="window.print()">Print</button>
+    <h1>Print Preview Summary</h1>
+    <form action="../server/api/create_log" method="post">
+        <div class="form-section">
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="#">Flight Number:</label>
+                    <input type="text" name="#" placeholder="Flight Number" required>
+                </div>
+                <div class="form-field">
+                    <label for="#">Date:</label>
+                    <input type="text" name="#" placeholder="Date">
+                </div>
+                <div class="form-field">
+                    <label for="#">Serial Number:</label>
+                    <input type="text" name="#" placeholder="Serial Number">
+                </div>
+                <div class="form-field">
+                    <label for="#">To:</label>
+                    <input type="text" name="#" placeholder="To">
+                </div>
+                <div class="form-field">
+                    <label for="#">From:</label>
+                    <input type="text" name="#" placeholder="From">
+                </div>
+                <div class="form-field">
+                    <label for="#">Chock ON (Z):</label>
+                    <input type="text" name="#" placeholder="Chock ON (Z)">
+                </div>
+                <div class="break"></div>
+                <div class="form-field">
+                    <label for="#">Chock OFF (Z):</label>
+                    <input type="text" name="#" placeholder="Chock OFF (Z)">
+                </div>
+
+                <div class="form-field">
+                    <label for="#">Landing (Z):</label>
+                    <input type="text" name="#" placeholder="Landing (Z)">
+                </div>
+                <div class="form-field">
+                    <label for="#">Take-Off (Z):</label>
+                    <input type="text" name="#" placeholder="Take-Off (Z)">
+                </div>
+                <div class="form-field">
+                    <label for="#">Flight Time:</label>
+                    <input type="text" name="#" placeholder="Flight Time">
+                </div>
+                <div class="form-field">
+                    <label for="#">Touch and Go:</label>
+                    <input type="text" name="#" placeholder="Touch and Go">
+                </div>
+                <div class="form-field">
+                    <label for="#">Total Time:</label>
+                    <input type="text" name="#" placeholder="Total Time">
+                </div>
+            </div>
+        </div>
+    </form>
+    <button style="background-color: #e91e63;" class="printPrv" type="button" onclick="printTables()">Print</button>
     <table>
         <tr>
             <th colspan="3">DEFECT</th>
@@ -204,6 +356,33 @@
 
 
     <script>
+        function printTables() {
+    // Hide the print button
+    const printButton = document.querySelector('.printPrv');
+    printButton.style.display = 'none';
+
+    // Hide the scroll bars in the printed page
+    document.body.style.overflow = 'hidden';
+
+    // Hide all elements except for tables and elements with the "brand" class
+    const elementsToHide = document.querySelectorAll('body > *:not(table):not(.printPrv):not(.brand)');
+    elementsToHide.forEach(element => {
+        element.style.display = 'none';
+    });
+
+    // Print the page
+    window.print();
+
+    // Restore the visibility of hidden elements and the print button
+    elementsToHide.forEach(element => {
+        element.style.display = '';
+    });
+    printButton.style.display = 'block';
+
+    // Restore the scroll bars after printing
+    document.body.style.overflow = '';
+}
+
         let editedCells = [];
         const saveButton = document.querySelector('.save-button');
 

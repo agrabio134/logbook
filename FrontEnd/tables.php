@@ -42,6 +42,43 @@ $lname = $_SESSION['lname'];
   <link id="pagestyle" href="assets/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
   <link rel="stylesheet" type="text/css" href="css/tables.css">
 </head>
+<style>
+  .input-head {
+    display: flex;
+    justify-content: space-around;
+
+
+  }
+  .printPrv {
+    width: 400px;
+    padding-top: 15px;
+  }
+
+  .form-control {
+    /* width: 400px; */
+    margin-top: 20px;
+  }
+  /* Style for the search input */
+
+  #tableSearch {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+  }
+
+  /* Optional: Add additional styles for better visual appeal */
+  #tableSearch:focus {
+    outline: none;
+    border-color: #007bff;
+    /* Change focus border color */
+    box-shadow: 0 0 5px #007bff;
+    /* Add a box shadow when focused */
+  }
+</style>
 
 
 <body class="g-sidenav-show  bg-gray-200">
@@ -129,77 +166,88 @@ $lname = $_SESSION['lname'];
 
 
           <!-- TABLE HERE  -->
-          <a class="printPrv" href="print_summary.php" target="_blank">Print Preview Summary</a>
+          <div class="input-head">
 
+            <a class="printPrv" href="print_summary.php" target="_blank">Print Preview Summary</a>
+
+            <input type="text" class="form-control" id="tableSearch" placeholder="Search...">
+          </div>
 
           <!-- create table for logs -->
-          <table class="styled-table">
-            <tr>
-              <th colspan="3" class="centered-header with-line">DEFECT</th>
-              <th colspan="7" class="centered-header with-line">ACTION TAKEN</th>
-            </tr>
-            <tr>
-              <th>Item No.</th>
-              <th>Fault Code</th>
-              <th class="with-line">Fault Desc</th>
 
-              <th>Item No.</th>
-              <th>Transfer to DO S/No.</th>
-              <th>MEL Item No.</th>
-              <th>CAT</th>
-              <th>Action Description</th>
-              <th class="hidePrint">Created At</th>
-              <th class="hidePrint">Actions</th>
-            </tr>
-
-            <?php
-            // get all logs
-            $url = "http://localhost/logbook/server/api/get_logs";
-            $ch = curl_init($url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            $result = curl_exec($ch);
-            $logs = json_decode($result, true);
-            curl_close($ch);
-
-            // loop through logs
-            foreach ($logs['payload'] as $log) {
-              echo "<tr>";
-              echo "<td>" . $log['item_no'] . "</td>";
-              echo "<td>" . $log['fault_code'] . "</td>";
-
-              // Make "Fault Desc" cell fixed with a height of 100px and vertical scrolling
-              echo "<td>";
-              echo "<div style='max-width: 150px; height: 70px; overflow-y: auto;'>" . $log['fault_desc'] . "</div>";
-              echo "</td>";
+          <table class="styled-table" id="logTable">
+            <thead>
+              <tr>
+                <th colspan="3" class="centered-header with-line">DEFECT</th>
+                <th colspan="7" class="centered-header with-line">ACTION TAKEN</th>
+              </tr>
+              <tr>
 
 
-              echo "<td>" . $log['item_no'] . "</td>";
-              echo "<td>" . $log['transfer_to_do_s_no'] . "</td>";
-              echo "<td>" . $log['mel_item_no'] . "</td>";
-              echo "<td class='cat-cell'>" . $log['cat'] . "</td>";
 
-              // Make "Action Description" cell fixed with a height of 100px and vertical scrolling
-              echo "<td>";
-              echo "<div style='max-width: 150px; height: 70px; overflow-y: auto;'>" . $log['action_taken'] . "</div>";
-              echo "</td>";
+                <th>Item No.</th>
+                <th>Fault Code</th>
+                <th class="with-line">Fault Desc</th>
 
-              echo "<td class='hidePrint'>" . $log['updated_at'] . "</td>";
-              echo "<td class='hidePrint'>";
-              echo "<button type='button' class='btn btn-danger' data-log-id='" . $log['log_id'] . "' onclick='if(confirm(`Are you sure you want to archive this log with ID " . $log['log_id'] . "?`)) window.location.href=`../server/api/archive?id=" . $log['log_id'] . "`;'>Archive</button>";
+                <th>Item No.</th>
+                <th>Transfer to DO S/No.</th>
+                <th>MEL Item No.</th>
+                <th>CAT</th>
+                <th>Action Description</th>
+                <th class="hidePrint">Created At</th>
+                <th class="hidePrint">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php
+              // get all logs
+              $url = "http://localhost/logbook/server/api/get_logs";
+              $ch = curl_init($url);
+              curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+              $result = curl_exec($ch);
+              $logs = json_decode($result, true);
+              curl_close($ch);
 
-              // Add a space between buttons
-              echo "&nbsp; &nbsp;";
+              // loop through logs
+              foreach ($logs['payload'] as $log) {
+                echo "<tr>";
+                echo "<td>" . $log['item_no'] . "</td>";
+                echo "<td>" . $log['fault_code'] . "</td>";
 
-              echo "<button type='button' class='btn btn-warning editButton' id='editButton'
+                // Make "Fault Desc" cell fixed with a height of 100px and vertical scrolling
+                echo "<td>";
+                echo "<div style='max-width: 150px; height: 70px; overflow-y: auto;'>" . $log['fault_desc'] . "</div>";
+                echo "</td>";
+
+
+                echo "<td>" . $log['item_no'] . "</td>";
+                echo "<td>" . $log['transfer_to_do_s_no'] . "</td>";
+                echo "<td>" . $log['mel_item_no'] . "</td>";
+                echo "<td class='cat-cell'>" . $log['cat'] . "</td>";
+
+                // Make "Action Description" cell fixed with a height of 100px and vertical scrolling
+                echo "<td>";
+                echo "<div style='max-width: 150px; height: 70px; overflow-y: auto;'>" . $log['action_taken'] . "</div>";
+                echo "</td>";
+
+                echo "<td class='hidePrint'>" . $log['updated_at'] . "</td>";
+                echo "<td class='hidePrint'>";
+                echo "<button type='button' class='btn btn-danger' data-log-id='" . $log['log_id'] . "' onclick='if(confirm(`Are you sure you want to archive this log with ID " . $log['log_id'] . "?`)) window.location.href=`../server/api/archive?id=" . $log['log_id'] . "`;'>Archive</button>";
+
+                // Add a space between buttons
+                echo "&nbsp; &nbsp;";
+
+                echo "<button type='button' class='btn btn-warning editButton' id='editButton'
           data-log-id='" . $log['log_id'] . "'
           data-toggle='modal' data-target='#editModal'
           >Edit</button>";
 
 
-              echo "</td>";
-              echo "</tr>";
-            }
-            ?>
+                echo "</td>";
+                echo "</tr>";
+              }
+              ?>
+            </tbody>
 
           </table>
 
@@ -238,7 +286,7 @@ $lname = $_SESSION['lname'];
                       <input type="number" name="log_id" id="log_id" hidden>
                       <label for="item_no">Item Number:</label>
                       <!-- <input type="number" name="item_no" id="item_no" disabled> -->
-                      <input type="number" name="item_no" id="item_no" >
+                      <input type="number" name="item_no" id="item_no">
                     </div>
                     <div class="form-field">
                       <label for="fault_code">Fault Code:&nbsp&nbsp&nbsp&nbsp</label>
@@ -338,6 +386,15 @@ $lname = $_SESSION['lname'];
       // console.log(log);
 
 
+    });
+
+    $(document).ready(function() {
+      $("#tableSearch").on("keyup", function() {
+        var searchText = $(this).val().toLowerCase();
+        $("#logTable tbody tr").filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(searchText) > -1);
+        });
+      });
     });
   </script>
 

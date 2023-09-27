@@ -134,74 +134,74 @@ $lname = $_SESSION['lname'];
 
           <!-- create table for logs -->
           <table class="styled-table">
-  <tr>
-    <th colspan="3" class="centered-header with-line">DEFECT</th>
-    <th colspan="7" class="centered-header with-line">ACTION TAKEN</th>
-  </tr>
-  <tr>
-    <th>Item No.</th>
-    <th>Fault Code</th>
-    <th class="with-line">Fault Desc</th>
+            <tr>
+              <th colspan="3" class="centered-header with-line">DEFECT</th>
+              <th colspan="7" class="centered-header with-line">ACTION TAKEN</th>
+            </tr>
+            <tr>
+              <th>Item No.</th>
+              <th>Fault Code</th>
+              <th class="with-line">Fault Desc</th>
 
-    <th>Item No.</th>
-    <th>Transfer to DO S/No.</th>
-    <th>MEL Item No.</th>
-    <th>CAT</th>
-    <th>Action Description</th>
-    <th class="hidePrint">Created At</th>
-    <th class="hidePrint">Actions</th>
-  </tr>
+              <th>Item No.</th>
+              <th>Transfer to DO S/No.</th>
+              <th>MEL Item No.</th>
+              <th>CAT</th>
+              <th>Action Description</th>
+              <th class="hidePrint">Created At</th>
+              <th class="hidePrint">Actions</th>
+            </tr>
 
-  <?php
-  // get all logs
-  $url = "http://localhost/logbook/server/api/get_logs";
-  $ch = curl_init($url);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-  $result = curl_exec($ch);
-  $logs = json_decode($result, true);
-  curl_close($ch);
+            <?php
+            // get all logs
+            $url = "http://localhost/logbook/server/api/get_logs";
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $result = curl_exec($ch);
+            $logs = json_decode($result, true);
+            curl_close($ch);
 
-  // loop through logs
-  foreach ($logs['payload'] as $log) {
-    echo "<tr>";
-    echo "<td>" . $log['item_no'] . "</td>";
-    echo "<td>" . $log['fault_code'] . "</td>";
+            // loop through logs
+            foreach ($logs['payload'] as $log) {
+              echo "<tr>";
+              echo "<td>" . $log['item_no'] . "</td>";
+              echo "<td>" . $log['fault_code'] . "</td>";
 
-    // Make "Fault Desc" cell fixed with a height of 100px and vertical scrolling
-    echo "<td>";
-    echo "<div style='max-width: 150px; height: 70px; overflow-y: auto;'>" . $log['fault_desc'] . "</div>";
-    echo "</td>";
-    
+              // Make "Fault Desc" cell fixed with a height of 100px and vertical scrolling
+              echo "<td>";
+              echo "<div style='max-width: 150px; height: 70px; overflow-y: auto;'>" . $log['fault_desc'] . "</div>";
+              echo "</td>";
 
-    echo "<td>" . $log['item_no'] . "</td>";
-    echo "<td>" . $log['transfer_to_do_s_no'] . "</td>";
-    echo "<td>" . $log['mel_item_no'] . "</td>";
-    echo "<td class='cat-cell'>" . $log['cat'] . "</td>";
 
-    // Make "Action Description" cell fixed with a height of 100px and vertical scrolling
-    echo "<td>";
-    echo "<div style='max-width: 150px; height: 70px; overflow-y: auto;'>" . $log['action_taken'] . "</div>";
-    echo "</td>";
+              echo "<td>" . $log['item_no'] . "</td>";
+              echo "<td>" . $log['transfer_to_do_s_no'] . "</td>";
+              echo "<td>" . $log['mel_item_no'] . "</td>";
+              echo "<td class='cat-cell'>" . $log['cat'] . "</td>";
 
-    echo "<td class='hidePrint'>" . $log['updated_at'] . "</td>";
-    echo "<td class='hidePrint'>";
-    echo "<button type='button' class='btn btn-danger' data-log-id='" . $log['log_id'] . "' onclick='if(confirm(`Are you sure you want to archive this log with ID " . $log['log_id'] . "?`)) window.location.href=`../server/api/archive?id=" . $log['log_id'] . "`;'>Archive</button>";
+              // Make "Action Description" cell fixed with a height of 100px and vertical scrolling
+              echo "<td>";
+              echo "<div style='max-width: 150px; height: 70px; overflow-y: auto;'>" . $log['action_taken'] . "</div>";
+              echo "</td>";
 
-    // Add a space between buttons
-    echo "&nbsp; &nbsp;";
-    
-    echo "<button type='button' class='btn btn-warning editButton' id='editButton'
+              echo "<td class='hidePrint'>" . $log['updated_at'] . "</td>";
+              echo "<td class='hidePrint'>";
+              echo "<button type='button' class='btn btn-danger' data-log-id='" . $log['log_id'] . "' onclick='if(confirm(`Are you sure you want to archive this log with ID " . $log['log_id'] . "?`)) window.location.href=`../server/api/archive?id=" . $log['log_id'] . "`;'>Archive</button>";
+
+              // Add a space between buttons
+              echo "&nbsp; &nbsp;";
+
+              echo "<button type='button' class='btn btn-warning editButton' id='editButton'
           data-log-id='" . $log['log_id'] . "'
           data-toggle='modal' data-target='#editModal'
           >Edit</button>";
-    
 
-    echo "</td>";
-    echo "</tr>";
-  }
-  ?>
 
-</table>
+              echo "</td>";
+              echo "</tr>";
+            }
+            ?>
+
+          </table>
 
 
         </div>
@@ -227,15 +227,18 @@ $lname = $_SESSION['lname'];
             <div class="form-container">
 
               <?php
-             
+
               ?>
-              <form action="../server/api/update_sum" method="post">
+              <form action="../server/api/update_log" method="post">
                 <div class="form-section">
                   <h3>DEFECT</h3>
                   <div class="form-row">
                     <div class="form-field">
+                      <!-- <label for="log_id">Log Id:</label> -->
+                      <input type="number" name="log_id" id="log_id" hidden>
                       <label for="item_no">Item Number:</label>
-                      <input type="text" name="item_no" id="item_no" required>
+                      <!-- <input type="number" name="item_no" id="item_no" disabled> -->
+                      <input type="number" name="item_no" id="item_no" >
                     </div>
                     <div class="form-field">
                       <label for="fault_code">Fault Code:&nbsp&nbsp&nbsp&nbsp</label>
@@ -248,16 +251,11 @@ $lname = $_SESSION['lname'];
                       <label for="fault_desc">Fault Description:</label>
                       <textarea name="fault_desc" placeholder="Fault Description" id="fault_desc" cols="50"></textarea>
                     </div>
-
                   </div>
                 </div>
                 <div class="form-section">
                   <h3>ACTION TAKEN</h3>
                   <div class="form-row">
-                    <!-- <div class="form-field">
-                      <label for="#">Item Number:</label>
-                      <input type="text" name="#" placeholder="Item Number" >
-                    </div> -->
                     <div class="form-field">
                       <label for="transfer_to_do_s_no">Transfer to DO S/No:</label>
                       <input type="text" name="transfer_to_do_s_no" id="edit_item_no_action" placeholder="Item">
@@ -275,44 +273,75 @@ $lname = $_SESSION['lname'];
                         <option value="D">D</option>
                       </select>
                     </div>
-                    <br>
-                    <div class="break"></div>
-                    <div class="form-field">
-                      <label for="action_taken">Description:</label>
-
-                      <textarea name="action_taken" placeholder="Description" id="edit_action_taken" cols="50"></textarea>
-                    </div>
+                  </div>
+                  <br>
+                  <div class="break"></div>
+                  <div class="form-field">
+                    <label for="action_taken">Description:</label>
+                    <textarea name="action_taken" placeholder="Description" id="edit_action_taken" cols="50"></textarea>
                   </div>
                 </div>
                 <!-- <button style=" background-color: #e91e63; " type="submit">Create log</button> -->
-              </form>
-
+                <!-- End form fields -->
             </div>
-            <!-- End form fields -->
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id="saveChangesButton">Save changes</button>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" id="saveChangesButton">Save changes</button>
+            </div>
+            </form>
+
+
           </div>
         </div>
       </div>
-    </div>
   </main>
-<script>
+  <script>
+    $('.editButton').click(function() {
+      let logIdToEdit = $(this).data('log-id');
+
+      $('#loginInput').val(logIdToEdit);
+      console.log("Log ID to edit: " + logIdToEdit);
+
+      // Get log data from server
+
+      // get payload
+      let url = "http://localhost/logbook/server/api/get_log_by_id?id=" + logIdToEdit;
+
+      fetch(url)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(log => {
+          console.log(log);
+          // put data into form fields add loading animation
+          $('#log_id').val(log.payload[0].log_id);
+
+          $('#item_no').val(log.payload[0].item_no);
+          $('#fault_code').val(log.payload[0].fault_code);
+          $('#fault_desc').val(log.payload[0].fault_desc);
+          $('#edit_item_no_action').val(log.payload[0].item_no);
+          $('#edit_mel_item_no').val(log.payload[0].mel_item_no);
+          $('#edit_cat').val(log.payload[0].cat);
+          $('#edit_action_taken').val(log.payload[0].action_taken);
 
 
-$('.editButton').click(function() {
-  let logIdToEdit = $(this).data('log-id');
-
-  $('#loginInput').val(logIdToEdit);
-  console.log("Log ID to edit: " + logIdToEdit);
-
-});
+        })
+        .catch(error => {
+          // Handle errors here
+          console.error('There was a problem with the fetch operation:', error);
+        });
 
 
-</script>
+      // console.log(log);
 
- 
+
+    });
+  </script>
+
+
   <script async defer src="https://buttons.github.io/buttons.js"></script>
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

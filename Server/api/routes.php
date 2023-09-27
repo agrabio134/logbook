@@ -27,28 +27,45 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
             case 'logout':
                 echo json_encode($auth->logout());
-                break;  
-                
+                break;
+
             case 'login':
                 echo json_encode($auth->login($data));
                 break;
 
             case 'register':
                 echo json_encode($auth->register($data));
-                break; 
-                
+                break;
+
+
             case 'create_log':
                 echo json_encode($post->create_log($data));
-                break;   
+                break;
+
+            case 'update_log':
+
+
+                if (isset($_POST['log_id'], $_POST['item_no'], $_POST['fault_code'], $_POST['fault_desc'], $_POST['transfer_to_do_s_no'], $_POST['mel_item_no'], $_POST['cat'], $_POST['action_taken'])) {
+
+
+                    $data = $_POST; // Assign the data to the $data variable
+                    echo json_encode($global->update("logs", $data, "log_id = " . $data['log_id']));
+                } else {
+
+                    echo json_encode(array("code" => 400, "errmsg" => "Invalid data"));
+                }
+
+                break;
+
 
             case 'add_detail':
                 echo json_encode($post->add_detail($data));
-                break;  
+                break;
             case 'update_detail':
                 echo json_encode($post->update_detail($data));
-                break;  
-                
-        
+                break;
+
+
             default:
                 echo json_encode(array('error' => 'request not found'));
                 break;
@@ -65,10 +82,15 @@ switch ($_SERVER['REQUEST_METHOD']) {
             case 'get_summary':
                 echo json_encode($post->get_summary());
                 break;
-            // getting sum by id
+                // getting sum by id
             case 'get_sum_by_id':
                 $logId = $_GET['id'];
                 echo json_encode($get->get_common("summary", $logId));
+                break;
+
+            case 'get_log_by_id':
+                $logId = $_GET['id'];
+                echo json_encode($get->get_common("logs", "log_id = $logId"));
                 break;
 
             case 'get_archived_logs':
@@ -79,20 +101,19 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 $logId = $_GET['id'];
                 echo json_encode($post->archive_log($logId));
                 break;
-                
+
             case 'retrieve':
                 $logId = $_GET['id'];
                 echo json_encode($post->retrieve_log($logId));
                 break;
-                
+
             default:
                 echo json_encode(array('error' => 'request not found'));
                 break;
-
         }
         break;
 
- 
+
     default:
         echo json_encode(array('error' => 'failed request'));
         break;

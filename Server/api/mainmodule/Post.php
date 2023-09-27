@@ -48,9 +48,13 @@ class Post
         }
 
         // return $this->gm->returnPayload($payload, $remarks, $message, $code);
+        header('Content-Type: text/html; charset=utf-8');
 
-        header("Location: http://localhost/logbook/frontend/index.php");
+        echo "<script>alert('Log Created Successfully!'); window.location.href = 'http://localhost/logbook/frontend/tables.php';</script>";
     }
+
+
+
     public function update_detail($received_data)
     {
         session_start();

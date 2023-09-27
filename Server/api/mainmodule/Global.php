@@ -81,17 +81,25 @@ class GlobalMethods {
             $counter = 0;
             $sql_str = "UPDATE $table_name SET ";
             foreach ($fields as $index => $value) {
-                if ($value === "recno_fld") {
+                if ($value === "id") {
                     continue;
                 }
                 $sql_str .= " $value = ?,";
             }
             $sql_str = rtrim($sql_str, ',');
-            $sql_str .= " WHERE recno_fld = ?";
-            $values[] = $data['recno_fld'];
+            $sql_str .= " WHERE log_id = ?";
+            $values[] = $data['log_id'];
             $sql = $this->pdo->prepare($sql_str);
             $sql->execute($values);
-            return array("code" => 200, "remarks" => "success");
+            echo array("code" => 200, "remarks" => "success");
+
+            // add alert here
+            header('Content-Type: text/html; charset=utf-8');
+
+            echo "<script>alert('Log Updated Successfully!'); window.location.href = 'http://localhost/logbook/frontend/tables.php';</script>";
+
+           
+
         } catch (\PDOException $e) {
             $errmsg = $e->getMessage();
             $code = 403;

@@ -133,7 +133,7 @@ $lname = $_SESSION['lname'];
                 <div class="form-row">
                   <div class="form-field">
                     <label for="item_no">Item Number:</label>
-                    <input type="text" name="item_no" placeholder="Item number" required>
+                    <input type="number" name="item_no" placeholder="Item number" required>
                   </div>
                   <div class="form-field">
                     <label for="fault_code">Fault Code:</label>
@@ -158,11 +158,11 @@ $lname = $_SESSION['lname'];
                   </div> -->
                   <div class="form-field">
                     <label for="transfer_to_do_s_no">Transfer to DO S/No:</label>
-                    <input type="text" name="transfer_to_do_s_no" placeholder="Item">
+                    <input type="number" name="transfer_to_do_s_no" placeholder="Item">
                   </div>
                   <div class="form-field">
                     <label for="mel_item_no">MEL Item No.:</label>
-                    <input type="text" name="mel_item_no" placeholder="Code">
+                    <input type="number" name="mel_item_no" placeholder="Code">
                   </div>
                   <div class="form-field">
                     <label for="cat">Category:</label>

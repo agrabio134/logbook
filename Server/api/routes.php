@@ -82,7 +82,10 @@ switch ($_SERVER['REQUEST_METHOD']) {
             case 'get_summary':
                 echo json_encode($post->get_summary());
                 break;
-                // getting sum by id
+            case 'get_flights':
+                echo json_encode($post->get_flights());
+                break;
+            // getting sum by id
             case 'get_sum_by_id':
                 $logId = $_GET['id'];
                 echo json_encode($get->get_common("summary", $logId));

@@ -299,6 +299,19 @@ class Post
         return $this->gm->returnPayload($payload, $remarks, $message, $code);
     }
 
+    public function get_flights()
+    {
+        $sql = "SELECT * FROM flights";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        $flight = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $code = 200;
+        $remarks = "success";
+        $message = "flights retrieved successfully.";
+        $payload = $flight;
+        return $this->gm->returnPayload($payload, $remarks, $message, $code);
+    }
+
 
 
     public function get_archived_logs()

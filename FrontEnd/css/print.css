@@ -3,7 +3,6 @@
     display: none;
 }
 
-
 .hideOnScreen {
     display: none;
 }
@@ -17,7 +16,7 @@ h3, table {
         display: none;
     }
     body * {
-        display: none;
+        display: block;
     }
 
     /* Show only specific elements for printing */

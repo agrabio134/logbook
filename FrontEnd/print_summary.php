@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,10 +20,23 @@
     /* .save-button {
         display: none;
     } */
+
+    @media print {
+
+        /* Hide elements you don't want to print */
+        .hidePrint {
+            display: none;
+        }
+
+        /* Show only specific elements for printing */
+        .showPrint {
+            display: block !important;
+        }
+    }
 </style>
+
 <body>
     <!-- Add your form here -->
-    <div class="hidePrint"></div>
     <div class="brand" style="text-align: center;">
         <h3 style="font-weight: bold; font-size: 40px; color: gray; margin-bottom: 0;">
             <img src="css/cropped-flyseair-free.png" alt="Company Logo" style="height: 40px; margin-right: 5px;">
@@ -32,7 +46,15 @@
             TECHNICAL LOG
         </h3>
     </div>
-    <h1>Print Preview Summary</h1>
+
+    <!--  -->
+    <div class="hidePrint">
+
+
+        <h1>Print Preview Summary</h1>
+
+        <button style="background-color: #e91e63;" class="printPrv" type="button" onclick="printTables()">Print</button>
+    </div>
     <table>
         <tr>
             <th id="flight_no">Flight Number</th>
@@ -78,7 +100,7 @@
             ?>
         </tbody>
     </table>
-    <button style="background-color: #e91e63;" class="printPrv" type="button" onclick="printTables()">Print</button>
+
     <table>
         <tr>
             <th colspan="3">DEFECT</th>
@@ -170,7 +192,9 @@
             ?>
         </tbody>
     </table>
-    <button style="background-color: #e91e63;" class="save-button printBtn" onclick="saveData()">Save Changes</button>
+    <div class="hidePrint">
+        <button style="background-color: #e91e63;" class="save-button printBtn" onclick="saveData()">Save Changes</button>
+    </div>
     <script>
         function printTables() {
             window.print();
@@ -214,26 +238,26 @@
             console.log(editedDataJson);
 
             fetch('../server/api/update_detail', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(editedData),
-            })
-            .then(response => {
-                if (response.ok) {
-                    console.log('Data saved successfully');
-                    editedCells = [];
-                    toggleSaveButton();
-                    alert("Data saved successfully");
-                    window.location.reload();
-                } else {
-                    console.error('Failed to save data');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(editedData),
+                })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Data saved successfully');
+                        editedCells = [];
+                        toggleSaveButton();
+                        alert("Data saved successfully");
+                        window.location.reload();
+                    } else {
+                        console.error('Failed to save data');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         }
 
         document.querySelectorAll('.editable').forEach(cell => {
@@ -264,4 +288,5 @@
         thead.insertBefore(newRow, currentRow);
     </script>
 </body>
+
 </html>

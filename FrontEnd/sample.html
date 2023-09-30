@@ -1,58 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" type="text/css" href="css/form.css">
-</head>
-<body>
-    <div class="form-container">
-        <div class="section">
-            <h3>DEFECT</h3>
-            <form action="../server/api/create_log" method="post">
-                <div class="form-group">
-                    <label for="item_no">Item Number:</label>
-                    <input type="text" name="item_no" placeholder="Item number" required>
-                </div>
-                <div class="form-group">
-                    <label for="fault_code">Fault Code:</label>
-                    <input type="text" name="fault_code" placeholder="Fault Code">
-                </div>
-                <div class="form-group">
-                    <label for="fault_desc">Fault Description:</label>
-                    <input type="text" name="fault_desc" placeholder="Fault Description">
-                </div>
-            </form>
-        </div>
-        <div class="section">
-            <h3>ACTION TAKEN</h3>
-            <form action="../server/api/create_log" method="post">
-                <div class="form-group">
-                    <label for="transfer_to_do_s_no">Transfer to DO S/No:</label>
-                    <input type="text" name="transfer_to_do_s_no" placeholder="Transfer to DO S/No">
-                </div>
-                <div class="form-group">
-                    <label for="mel_item_no">MEL Item No:</label>
-                    <input type="text" name="mel_item_no" placeholder="MEL Item No">
-                </div>
-                <div class="form-group">
-                    <label for="action_taken">Action Description:</label>
-                    <input type="text" name="action_taken" placeholder="Description">
-                </div>
-                <div class="form-group">
-                    <label for="cat">Category:</label>
-                    <select name="cat" id="cat">
-                        <option value="A">A</option>
-                        <option value="B">B</option>
-                        <option value="C">C</option>
-                        <option value="D">D</option>
-                    </select>
-                </div>
-                <button type="submit">Create log</button>
-            </form>
-        </div>
-    </div>
-    
-</body>
-</html>
+<form action="../server/api/register" method="post">
+    <input type="email" name="username" placeholder="Email">
+    <input type="text" name="password" placeholder="Password">
+    <input type="text" name="fname" placeholder="First name">
+    <input type="text" name="lname" placeholder="Last name">
+    <input type="text" name="department" placeholder="Department">
+    <input type="text" name="contact_no" placeholder="Contact number">
+    <button type="submit">Register</button>
+</form>

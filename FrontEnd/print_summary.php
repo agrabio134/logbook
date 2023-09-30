@@ -133,14 +133,14 @@
             echo "<td>" . $log['item_no'] . "</td>";
             echo "<td>" . $log['fault_code'] . "</td>";
             echo "<td>";
-            echo "<div style='max-width: 150px; overflow-y: auto;'>" . $log['fault_desc'] . "</div>";
+            echo "<div style='max-width: 200px; min-width: 200px; max-height: 1000px; min-height: 50px;'>" . $log['fault_desc'] . "</div>";
             echo "</td>";
             echo "<td>" . $log['item_no'] . "</td>";
             echo "<td>" . $log['transfer_to_do_s_no'] . "</td>";
             echo "<td>" . $log['mel_item_no'] . "</td>";
             echo "<td>" . $log['cat'] . "</td>";
             echo "<td>";
-            echo "<div style='max-width: 150px;  overflow-y: auto;'>" . $log['action_taken'] . "</div>";
+            echo "<div style='max-width: 200px; min-width: 200px; max-height: 1000px; min-height: 50px;'>" . $log['action_taken'] . "</div>";
             echo "</td>";
             echo "<td class='hidePrint'>" . $log['updated_at'] . "</td>";
             echo "<td class='showPrint' > </td>";
